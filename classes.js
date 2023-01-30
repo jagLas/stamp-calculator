@@ -28,20 +28,48 @@ class Inventory {
         }
     }
 
-    getStamps(){
-        return Object.keys(this);
-    };
+    // getStamps(){
+    //     return Object.keys(this);
+    // };
 
-    getValues() {
-        //returns a sorted array from least to greatest of the values of each stamp in inventory.
-        const values = [];
-        for (const stamp in this) {
-            values.push(this[stamp].val);
-        }
+    // getValues() {
+    //     //returns a sorted array from least to greatest of the values of each stamp in inventory.
+    //     const values = [];
+    //     for (const stamp in this) {
+    //         values.push(this[stamp].val);
+    //     }
 
-        return values.sort((a, b) => a-b);
+    //     return values.sort((a, b) => a-b);
+    // }
+
+    calcValue (){
+        const stamps = Object.values(this);
+        this.totalVal = 0;
+        stamps.forEach(stamp => {
+            const subVal = stamp.val * stamp.qty;
+            this.totalVal += subVal;
+        })
+
+        return this.totalVal;
+    }
+
+    calcQty (){
+        const stamps = Object.values(this);
+        this.totalQty = 0;
+        stamps.forEach(stamp => {
+            this.totalQty += stamp.qty;
+        })
+
+        return this.totalQty;
     }
 }
+
+let test = new Inventory;
+test.addStamp(1,5);
+test.addStamp(2,3);
+test.addStamp(7,2)
+console.log(test.calcQty())
+console.log(test)
 
 module.exports = {Stamp, Inventory}
 
