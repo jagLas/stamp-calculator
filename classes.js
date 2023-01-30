@@ -2,12 +2,10 @@ class Stamp {
     constructor (val, amount = 0) {
         this.val = val;
         this.qty = amount;
-        this.total = 0;
     }
 
     addQuantity(amount) {
         this.qty += amount;
-        this.total += amount * this.val;
         return this.qty;
     }
 }

@@ -25,7 +25,7 @@ function selectStamps(inventory, target) {
     
     let selected = [];
     for (let i = 0; i < stamps.length - 1; i++) {
-        let loopSelected = [];
+        // let loopSelected = [];
         let s1 = stamps[i].val;
         if (s1 <= target) {
             // loopSelected.push(s1);
@@ -39,7 +39,7 @@ function selectStamps(inventory, target) {
                 selected.push(combo);
             } else {
                 subCombos.forEach(subCombo => {
-                    console.log(subCombo)
+                    // console.log(subCombo)
                     subCombo.addStamp(s1, 1);
                     selected.push(subCombo);
                 })
@@ -49,9 +49,9 @@ function selectStamps(inventory, target) {
 
         }
 
-        if (loopSelected.length > 0) {
-            selected.push(loopSelected)
-        }
+        // if (loopSelected.length > 0) {
+        //     selected.push(loopSelected)
+        // }
 
         // for (let j = i; j < stamps.length; j++) {
         //     let [s1, s2] = [stamps[i].val, stamps[j].val];
