@@ -2,10 +2,12 @@ class Stamp {
     constructor (val, amount = 0) {
         this.val = val;
         this.qty = amount;
+        this.total = 0;
     }
 
     addQuantity(amount) {
         this.qty += amount;
+        this.total += amount * this.val;
         return this.qty;
     }
 }
@@ -44,3 +46,12 @@ class Inventory {
 }
 
 module.exports = {Stamp, Inventory}
+
+let mom = new Inventory;
+mom.addStamp(2, 11);
+mom.addStamp(4, 9);
+mom.addStamp(17, 27);
+mom.addStamp(23, 12);
+mom.addStamp(37, 33);
+mom.addStamp(39, 5);
+mom.addStamp(41, 12);
