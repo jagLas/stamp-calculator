@@ -47,7 +47,10 @@ class Inventory {
         this.totalVal = 0;
         stamps.forEach(stamp => {
             const subVal = stamp.val * stamp.qty;
-            this.totalVal += subVal;
+            if (typeof subVal === 'number') {
+                this.totalVal += subVal;
+            }
+         
         })
 
         return this.totalVal;
