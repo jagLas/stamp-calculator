@@ -39,7 +39,8 @@ function selectStamps(inventory, target) {
                 and push to the selected array
         2) Remove the current stamp value entirely from inventory copy and set it's value in stamps
             array to infinity so that it will no longer be selected for future combinations
-        3) Iterate to next highest stamp to create all combos that don't have the highest stamp*/
+        3) Iterate to next highest stamp to create all combos that don't have the highest stamp
+    */
         
     let selected = [];
     for (let i = 0; i < stamps.length; i++) {
