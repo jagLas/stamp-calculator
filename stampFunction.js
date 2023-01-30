@@ -119,7 +119,7 @@ function findBestCombo(inventory, postage) {
     }
 
     //once a combo has been found equal to the postage, return the combo
-    return combos;
+    return combos[0];
 }
 
 // let test = new Inventory;
@@ -128,13 +128,13 @@ function findBestCombo(inventory, postage) {
 // test.addStamp(7,2)
 // console.log(findBestCombo(test, 10))
 
-let mom = new Inventory;
-mom.addStamp(2, 11);
-mom.addStamp(4, 9);
-mom.addStamp(17, 27);
-mom.addStamp(23, 12);
-mom.addStamp(37, 33);
-mom.addStamp(39, 5);
-mom.addStamp(41, 12);
+// let mom = new Inventory;
+// mom.addStamp(2, 11);
+// mom.addStamp(4, 9);
+// mom.addStamp(17, 27);
+// mom.addStamp(23, 12);
+// mom.addStamp(37, 33);
+// mom.addStamp(39, 5);
+// mom.addStamp(41, 12);
 
-console.log(findBestCombo(mom, 63))
+// console.log(findBestCombo(mom, 63))
