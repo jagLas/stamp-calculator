@@ -67,26 +67,41 @@ function copyInventory (inventory) {
 }
 
 function findBestCombo(inventory, postage) {
-    selectStamps(inventory, postage);
+    let combos = selectStamps(inventory, postage);
+    combos.forEach(combo => {
+        combo.calcValue()
+        combo.calcQty();
+    })
     
+    combos = combos.filter(combo => {
+        if (combo.totalVal === postage) {
+            return combo;
+        }
+    })
+
+    combos.sort((a,b) => {
+        return a.totalQty - b.totalQty;
+    })
+
+    if (combos.length === 0) {
+        return findBestCombo(inventory, postage + 1)
+    }
+    return combos[0];
 }
 
-let test = new Inventory;
-test.addStamp(1,5);
-test.addStamp(2,3);
-test.addStamp(7,2)
-console.log(selectStamps(test, 10))
+// let test = new Inventory;
+// test.addStamp(1,5);
+// test.addStamp(2,3);
+// test.addStamp(7,2)
+// console.log(findBestCombo(test, 10))
 
-// let mom = new Inventory;
-// mom.addStamp(41, 2);
-// mom.addStamp(2, 11);
-// mom.addStamp(4, 9);
-// mom.addStamp(17, 27);
-// mom.addStamp(23, 12);
-// mom.addStamp(37, 33);
-// mom.addStamp(39, 5);
+let mom = new Inventory;
+mom.addStamp(2, 11);
+mom.addStamp(4, 9);
+mom.addStamp(17, 27);
+mom.addStamp(23, 12);
+mom.addStamp(37, 33);
+mom.addStamp(39, 5);
+mom.addStamp(41, 12);
 
-
-// console.log(selectStamps(mom, 63))
-// console.log(mom.getStamps())
-// console.log(mom.getValues())
+console.log(findBestCombo(mom, 63))

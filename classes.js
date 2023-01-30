@@ -57,27 +57,29 @@ class Inventory {
         const stamps = Object.values(this);
         this.totalQty = 0;
         stamps.forEach(stamp => {
-            this.totalQty += stamp.qty;
+            if (typeof stamp.qty === 'number') {
+                this.totalQty += stamp.qty;
+            }
         })
 
         return this.totalQty;
     }
 }
 
-let test = new Inventory;
-test.addStamp(1,5);
-test.addStamp(2,3);
-test.addStamp(7,2)
-console.log(test.calcQty())
-console.log(test)
+// let test = new Inventory;
+// test.addStamp(1,5);
+// test.addStamp(2,3);
+// test.addStamp(7,2)
+// console.log(test.calcQty())
+// console.log(test)
+
+// let mom = new Inventory;
+// mom.addStamp(2, 11);
+// mom.addStamp(4, 9);
+// mom.addStamp(17, 27);
+// mom.addStamp(23, 12);
+// mom.addStamp(37, 33);
+// mom.addStamp(39, 5);
+// mom.addStamp(41, 12);
 
 module.exports = {Stamp, Inventory}
-
-let mom = new Inventory;
-mom.addStamp(2, 11);
-mom.addStamp(4, 9);
-mom.addStamp(17, 27);
-mom.addStamp(23, 12);
-mom.addStamp(37, 33);
-mom.addStamp(39, 5);
-mom.addStamp(41, 12);
