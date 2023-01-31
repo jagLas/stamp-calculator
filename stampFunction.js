@@ -95,6 +95,11 @@ function copyInventory (inventory) {
 }
 
 function findBestCombo(inventory, postage) {
+    let inventoryCopy = copyInventory(inventory);
+    if (inventoryCopy.calcValue() < postage) {
+        return 'Not Enough for Postage'
+    }
+
     //Finds all possible combinations of stamps less than or equal to the postage
     let combos = selectStamps(inventory, postage);
 
@@ -104,9 +109,6 @@ function findBestCombo(inventory, postage) {
         combo.calcQty();
     })
 
-    if (combos[0].totalVal < postage) {
-        return 'Not Enough for Postage'
-    }
     
     //filters to combinations that meet postage requirements
     combos = combos.filter(combo => {
@@ -130,10 +132,10 @@ function findBestCombo(inventory, postage) {
 }
 
 let test = new Inventory;
-test.addStamp(1,5);
-test.addStamp(2,3);
+test.addStamp(1,2);
+test.addStamp(2,1);
 test.addStamp(7,2)
-console.log(findBestCombo(test, 26))
+console.log(findBestCombo(test, 19))
 
 // let mom = new Inventory;
 // mom.addStamp(2, 11);
