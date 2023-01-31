@@ -7,6 +7,10 @@ function selectStamps(inventory, target) {
         throw new TypeError('argument not an instance of Inventory')
     }
 
+    if (typeof target !== 'number') {
+        throw new TypeError('argument should be a number')
+    }
+
     //creates a deep copy of the inventory for modification
     let copy = copyInventory(inventory);
 
