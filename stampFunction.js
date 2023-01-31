@@ -103,6 +103,10 @@ function findBestCombo(inventory, postage) {
         combo.calcValue()
         combo.calcQty();
     })
+
+    if (combos[0].totalVal < postage) {
+        return 'Not Enough for Postage'
+    }
     
     //filters to combinations that meet postage requirements
     combos = combos.filter(combo => {
@@ -125,11 +129,11 @@ function findBestCombo(inventory, postage) {
     return combos[0];
 }
 
-// let test = new Inventory;
-// test.addStamp(1,5);
-// test.addStamp(2,3);
-// test.addStamp(7,2)
-// console.log(findBestCombo(test, 5))
+let test = new Inventory;
+test.addStamp(1,5);
+test.addStamp(2,3);
+test.addStamp(7,2)
+console.log(findBestCombo(test, 26))
 
 // let mom = new Inventory;
 // mom.addStamp(2, 11);
