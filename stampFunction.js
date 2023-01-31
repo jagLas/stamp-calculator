@@ -51,7 +51,7 @@ function selectStamps(inventory, target) {
             //copy the inventory again
             let loopCopy = copyInventory(copy);
             //remove stamp from inventory
-            loopCopy['c' + s1.toString()].qty -= 1;
+            loopCopy.addStamp(s1, -1);
             //find all sub combinations to this stamp
             let subCombos = selectStamps(loopCopy, target - s1)
 
@@ -70,11 +70,9 @@ function selectStamps(inventory, target) {
             }
         }
 
-        //remove the stamp type from inventory
+        //remove the stamp type from inventory list
         let qty = stamps[i].qty;
         copy.addStamp(s1, -qty);
-        //set the possible stamp value to infinity. Not sure if this is actually needed
-        stamps[0] = Infinity;
     }
     
     return selected;
@@ -127,7 +125,7 @@ function findBestCombo(inventory, postage) {
 // test.addStamp(1,5);
 // test.addStamp(2,3);
 // test.addStamp(7,2)
-// console.log(findBestCombo(test, 10))
+// console.log(findBestCombo(test, 5))
 
 // let mom = new Inventory;
 // mom.addStamp(2, 11);
