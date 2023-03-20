@@ -1,4 +1,4 @@
-import {Stamp, Inventory} from "./classes.js"
+import {Inventory} from "./classes.js"
 
 function selectStamps(inventory, target) {
 
