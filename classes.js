@@ -10,7 +10,7 @@ class Stamp {
     }
 }
 
-class Inventory {
+export class Inventory {
     constructor() {    
     }
 
@@ -84,5 +84,3 @@ class Inventory {
 // mom.addStamp(37, 33);
 // mom.addStamp(39, 5);
 // mom.addStamp(41, 12);
-
-module.exports = {Stamp, Inventory}

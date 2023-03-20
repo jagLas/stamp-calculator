@@ -1,4 +1,4 @@
-const {Stamp, Inventory} = require('./classes')
+import {Stamp, Inventory} from "./classes.js"
 
 function selectStamps(inventory, target) {
 
@@ -70,7 +70,7 @@ function selectStamps(inventory, target) {
                     subCombo.addStamp(s1, 1);
                     selected.push(subCombo);
                 })
-                
+
             }
         }
 
@@ -131,19 +131,31 @@ function findBestCombo(inventory, postage) {
     return combos[0];
 }
 
-let test = new Inventory;
-test.addStamp(1,2);
-test.addStamp(2,1);
-test.addStamp(7,2)
-console.log(findBestCombo(test, 19))
 
-// let mom = new Inventory;
-// mom.addStamp(2, 11);
-// mom.addStamp(4, 9);
-// mom.addStamp(17, 27);
-// mom.addStamp(23, 12);
-// mom.addStamp(37, 33);
-// mom.addStamp(39, 5);
-// mom.addStamp(41, 12);
+// let test = new Inventory;
+// test.addStamp(1,2);
+// test.addStamp(2,1);
+// test.addStamp(7,2)
+// console.log(findBestCombo(test, 19))
 
-// console.log(findBestCombo(mom, 63))
+let mom = new Inventory;
+mom.addStamp(2, 11);
+mom.addStamp(4, 9);
+mom.addStamp(17, 27);
+mom.addStamp(23, 12);
+mom.addStamp(37, 33);
+mom.addStamp(39, 5);
+mom.addStamp(41, 12);
+
+console.log(findBestCombo(mom, 49))
+
+// let momParse = JSON.parse(JSON.stringify(mom));
+// const momReparsed = new Inventory();
+// for (const stamp in momParse) {
+//     momReparsed.addStamp(momParse[stamp].val, momParse[stamp].qty)
+// }
+// console.log(momReparsed)
+// // momParse.addStamp(1,99)
+
+
+// console.log(findBestCombo(mom, 500))
