@@ -94,14 +94,19 @@ function copyInventory (inventory) {
     return copy;
 }
 
-function findBestCombo(inventory, postage) {
+export function findBestCombo(inventory, postage) {
     let inventoryCopy = copyInventory(inventory);
     if (inventoryCopy.calcValue() < postage) {
         return 'Not Enough for Postage'
     }
-
+    // debugger
     //Finds all possible combinations of stamps less than or equal to the postage
     let combos = selectStamps(inventory, postage);
+
+    //fixes bug where function breaks if no combos are returned
+    if (!combos) {
+        combos = [];
+    }
 
     //calculates each one's total value and the number of stamps
     combos.forEach(combo => {
@@ -138,24 +143,14 @@ function findBestCombo(inventory, postage) {
 // test.addStamp(7,2)
 // console.log(findBestCombo(test, 19))
 
-let mom = new Inventory;
-mom.addStamp(2, 11);
-mom.addStamp(4, 9);
-mom.addStamp(17, 27);
-mom.addStamp(23, 12);
-mom.addStamp(37, 33);
-mom.addStamp(39, 5);
-mom.addStamp(41, 12);
+// let mom = new Inventory;
+// mom.addStamp(2, 11);
+// mom.addStamp(4, 9);
+// mom.addStamp(17, 27);
+// mom.addStamp(23, 12);
+// mom.addStamp(37, 33);
+// mom.addStamp(39, 5);
+// mom.addStamp(41, 12);
 
-console.log(findBestCombo(mom, 49))
-
-// let momParse = JSON.parse(JSON.stringify(mom));
-// const momReparsed = new Inventory();
-// for (const stamp in momParse) {
-//     momReparsed.addStamp(momParse[stamp].val, momParse[stamp].qty)
-// }
-// console.log(momReparsed)
-// // momParse.addStamp(1,99)
-
-
+// console.log(findBestCombo(mom, 49))
 // console.log(findBestCombo(mom, 500))
