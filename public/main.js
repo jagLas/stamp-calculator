@@ -18,7 +18,6 @@ function addToInventory() {
 function refreshInventory() {
     const inventory = document.querySelector('#inventory')
     inventory.innerHTML = '';
-
     inventory.appendChild(inventoryToHTML(stamps));
 }
 
@@ -48,6 +47,10 @@ function inventoryToHTML(inventory) {
 
 function refreshResult(inventory) {
     const result = document.querySelector('#result')
+    document.querySelector('#res-qty').innerText = inventory.totalQty;
+    document.querySelector('#postage').innerText = inventory.totalVal;
+    delete inventory.totalQty;
+    delete inventory.totalVal;
     result.appendChild(inventoryToHTML(inventory));
 }
 
@@ -69,6 +72,7 @@ window.onload = () => {
         addToInventory();
     })
     document.querySelector('#calculate').addEventListener('click', (e) => {
+        e.preventDefault();
         const res = findBestCombo(stamps, 4);
         console.log(res)
         refreshResult(res);
