@@ -4,11 +4,12 @@ import { Inventory } from "./classes.js"
 const stamps = new Inventory();
 
 function addToInventory() {
-    const val = document.querySelector('#value').value;
-    const qty = document.querySelector('#quantity').value;
+    const val = document.querySelector('#value');
+    const qty = document.querySelector('#quantity');
     // debugger
-    stamps.addStamp(parseInt(val), parseInt(qty));
-    console.log(stamps)
+    stamps.addStamp(parseInt(val.value), parseInt(qty.value));
+    val.value = '';
+    qty.value = '';
 }
 
 
