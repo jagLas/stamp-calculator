@@ -12,6 +12,7 @@ function addToInventory() {
     qty.value = '';
     refreshInventory();
     console.log(stamps)
+    localStorage.setItem('stamps', JSON.stringify(stamps));
 }
 
 function refreshInventory() {
@@ -33,9 +34,6 @@ function refreshInventory() {
         inventory.appendChild(stampDiv)
     }
 }
-
-
-
 
 window.onload = () => {
     console.log(stamps)
