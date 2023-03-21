@@ -59,6 +59,20 @@ export class Inventory {
 
         return this.totalQty;
     }
+
+    setStamp(val, amount = 0) {
+        if (typeof val !== 'number' || typeof amount !== 'number') {
+            throw new TypeError('inputs should be numbers');
+        }
+
+        const stampName = 'c' + val.toString();
+
+        if (this[stampName] === undefined) {
+            this[stampName] = new Stamp(val, amount);
+        } else {
+            this[stampName].qty = amount;
+        }
+    }
 }
 
 // let test = new Inventory;

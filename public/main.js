@@ -2,6 +2,7 @@ import { findBestCombo } from "./stampFunction.js"
 import { Inventory } from "./classes.js"
 
 const stamps = new Inventory();
+const resultStamps = new Inventory();
 
 function addToInventory() {
     const val = document.querySelector('#value');
@@ -11,19 +12,17 @@ function addToInventory() {
     val.value = '';
     qty.value = '';
     refreshInventory();
-    // console.log(stamps)
+
     localStorage.setItem('stamps', JSON.stringify(stamps));
 }
 
 function refreshInventory() {
     const inventory = document.querySelector('#inventory')
     inventory.innerHTML = '';
-
-    console.log(inventoryToHTML(stamps).children)
     inventory.append(inventoryToHTML(stamps));
 }
 
-function inventoryToHTML(inventory) {
+function inventoryToHTML(inventory, editable = true) {
     if (inventory instanceof Inventory === false) {
         throw new TypeError('input must be of class inventory')
     }
@@ -44,11 +43,29 @@ function inventoryToHTML(inventory) {
         mult.innerText = 'X'
         stampDiv.appendChild(mult);
 
-        const quantity = document.createElement('span');
-        quantity.setAttribute('class', 'quantity')
-        quantity.innerText = stamp.qty
-        stampDiv.appendChild(quantity)
+        let quantity;
 
+        if(editable) {
+            quantity = document.createElement('input');
+            quantity.setAttribute('type', 'number')
+            quantity.value = stamp.qty
+
+            quantity.addEventListener('change', (e) => {
+                console.log(stamps);
+                stamps.setStamp(parseInt(stamp.val), parseInt(quantity.value));
+                localStorage.setItem('stamps', JSON.stringify(stamps));
+                console.log('inventory updating')
+                console.log(stamps);
+            })
+        } else {
+            quantity = document.createElement('span');
+            quantity.innerText = stamp.qty
+        }
+
+        quantity.setAttribute('class', 'quantity')
+
+
+        stampDiv.appendChild(quantity)
         div.appendChild(stampDiv)
     }
 
@@ -62,14 +79,13 @@ function refreshResult(inventory) {
     document.querySelector('#postage').innerText = inventory.totalVal;
     delete inventory.totalQty;
     delete inventory.totalVal;
-    result.appendChild(inventoryToHTML(inventory));
+    result.appendChild(inventoryToHTML(inventory, false));
 }
 
 //function sets the stamps variable to the inventory saved in local storage
 function restoreInventory() {
     let stampJSON = localStorage.getItem('stamps');
     stampJSON = JSON.parse(stampJSON);
-    console.log(stampJSON)
 
     for (const stamp in stampJSON) {
         stamps.addStamp(stampJSON[stamp].val, stampJSON[stamp].qty)
@@ -87,7 +103,12 @@ window.onload = () => {
         e.preventDefault();
         const postage = document.querySelector('#desired-postage');
         const res = findBestCombo(stamps, parseInt(postage.value));
-        refreshResult(res);
+        if (res instanceof Inventory) {
+            refreshResult(res);
+        } else {
+            document.querySelector('#result > .inventory').innerText = res
+        }
+
     })
 
     document.querySelector('#clear-inventory').addEventListener('click', (e) => {
