@@ -11,5 +11,16 @@ This currently needs to be run using node. It was written and tested on node v16
 
 ## To-do
 - More rigorous testing
-- Add functionality to select for more parameters, i.e., tell it to use the most stamps or the fewest.
-- Add a UI.
+- ~~Add a UI.~~
+- Add checks and code to prevent negative numbers
+- Add warnings for larger inventory size calculations
+- tweak positiong and responsive design of ui
+- Add sorting
+  - add a sort function for inventory
+  - auto sort inventory on html
+- add ability to delete stamps:
+  - add a delete function for stamp
+  - add delete button to html
+- make code more efficient
+  - write unit tests for functions
+  - change algorithm to return first found
