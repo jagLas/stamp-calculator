@@ -16,10 +16,6 @@ h1 {
     text-align: center;
 }
 
-input {
-    font-size: 16px;
-}
-
 input[type="number"] {
     width: 64px;
 }
@@ -38,3 +34,10 @@ input[type="number"] {
     justify-content: space-between;
 }
 
+.form-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
