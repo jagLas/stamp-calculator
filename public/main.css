@@ -10,12 +10,32 @@ body {
 
 h1 {
     color: blue;
+    text-align: center;
 }
 
-#inventory {
+input[type="number"] {
+    width: 64px;
+}
+
+.inventory {
     display: flex;
     margin: 16px 0px;
     flex-wrap: wrap;
+    max-width: 722px;
+}
+
+#controls > form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+
+}
+
+#controls {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
 }
 
 .stamp {

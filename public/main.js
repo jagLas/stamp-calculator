@@ -56,7 +56,7 @@ function inventoryToHTML(inventory) {
 }
 
 function refreshResult(inventory) {
-    const result = document.querySelector('#result')
+    const result = document.querySelector('#result > .inventory')
     document.querySelector('#res-qty').innerText = inventory.totalQty;
     document.querySelector('#postage').innerText = inventory.totalVal;
     delete inventory.totalQty;
@@ -90,7 +90,9 @@ window.onload = () => {
     })
 
     document.querySelector('#clear-inventory').addEventListener('click', (e) => {
+        e.preventDefault();
         stamps.clearInventory();
+        localStorage.setItem('stamps', JSON.stringify(stamps));
         refreshInventory();
     })
 
