@@ -94,7 +94,7 @@ function copyInventory (inventory) {
     return copy;
 }
 
-function findBestCombo(inventory, postage) {
+export function findBestCombo(inventory, postage) {
     let inventoryCopy = copyInventory(inventory);
     if (inventoryCopy.calcValue() < postage) {
         return 'Not Enough for Postage'
@@ -138,16 +138,16 @@ function findBestCombo(inventory, postage) {
 // test.addStamp(7,2)
 // console.log(findBestCombo(test, 19))
 
-let mom = new Inventory;
-mom.addStamp(2, 11);
-mom.addStamp(4, 9);
-mom.addStamp(17, 27);
-mom.addStamp(23, 12);
-mom.addStamp(37, 33);
-mom.addStamp(39, 5);
-mom.addStamp(41, 12);
+// let mom = new Inventory;
+// mom.addStamp(2, 11);
+// mom.addStamp(4, 9);
+// mom.addStamp(17, 27);
+// mom.addStamp(23, 12);
+// mom.addStamp(37, 33);
+// mom.addStamp(39, 5);
+// mom.addStamp(41, 12);
 
-console.log(findBestCombo(mom, 49))
+// console.log(findBestCombo(mom, 49))
 
 // let momParse = JSON.parse(JSON.stringify(mom));
 // const momReparsed = new Inventory();
