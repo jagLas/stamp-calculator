@@ -11,7 +11,7 @@ function addToInventory() {
     val.value = '';
     qty.value = '';
     refreshInventory();
-    console.log(stamps)
+    // console.log(stamps)
     localStorage.setItem('stamps', JSON.stringify(stamps));
 }
 
@@ -19,8 +19,17 @@ function refreshInventory() {
     const inventory = document.querySelector('#inventory')
     inventory.innerHTML = '';
 
-    for (const entry in stamps) {
-        const stamp = stamps[entry];
+    inventory.appendChild(inventoryToHTML(stamps));
+}
+
+function inventoryToHTML(inventory) {
+    if (inventory instanceof Inventory === false) {
+        throw new TypeError('input must be of class inventory')
+    }
+
+    const div = document.createElement('div');
+    for (const entry in inventory) {
+        const stamp = inventory[entry];
         const stampDiv = document.createElement('div');
 
         const value = document.createElement('span');
@@ -31,8 +40,15 @@ function refreshInventory() {
         quantity.innerText = ` x ${stamp.qty}`
         stampDiv.appendChild(quantity)
 
-        inventory.appendChild(stampDiv)
+        div.appendChild(stampDiv)
     }
+
+    return div;
+}
+
+function refreshResult(inventory) {
+    const result = document.querySelector('#result')
+    result.appendChild(inventoryToHTML(inventory));
 }
 
 function restoreInventory() {
@@ -55,6 +71,7 @@ window.onload = () => {
     document.querySelector('#calculate').addEventListener('click', (e) => {
         const res = findBestCombo(stamps, 4);
         console.log(res)
+        refreshResult(res);
     })
 
     restoreInventory();
