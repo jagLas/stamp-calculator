@@ -6,13 +6,11 @@
 
 .inventory {
     display: grid;
-    margin: 16px 0px;
+    margin: 16px auto;
     max-width: calc(var(--stamp-size) * 4);
     width: 100vw;
     justify-content: center;
-    /* gap: 32px; */
     grid-template-columns: repeat(auto-fill, var(--stamp-size));
-    /* grid-template-rows: repeat(auto-fill); */
 }
 
 

@@ -13,6 +13,7 @@
 #calculator {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 8px;
 }
 
@@ -20,4 +21,8 @@ h2 {
     text-align: center;
     margin: 0px auto;
     color: blue;
+}
+
+#result {
+    width: 100%;
 }
