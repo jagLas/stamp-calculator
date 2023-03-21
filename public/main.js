@@ -54,6 +54,7 @@ function refreshResult(inventory) {
     result.appendChild(inventoryToHTML(inventory));
 }
 
+//function sets the stamps variable to the inventory saved in local storage
 function restoreInventory() {
     let stampJSON = localStorage.getItem('stamps');
     stampJSON = JSON.parse(stampJSON);
@@ -66,16 +67,21 @@ function restoreInventory() {
 }
 
 window.onload = () => {
-    const submit = document.querySelector('#addStampButton');
-    submit.addEventListener('click', (e)=> {
+    document.querySelector('#addStampButton').addEventListener('click', (e)=> {
         e.preventDefault();
         addToInventory();
     })
+
     document.querySelector('#calculate').addEventListener('click', (e) => {
         e.preventDefault();
         const res = findBestCombo(stamps, 4);
         console.log(res)
         refreshResult(res);
+    })
+
+    document.querySelector('#clear-inventory').addEventListener('click', (e) => {
+        stamps.clearInventory();
+        refreshInventory();
     })
 
     restoreInventory();
