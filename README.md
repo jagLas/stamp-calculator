@@ -23,7 +23,9 @@ The app is currently deployed at https://jaglas-stamp-calculator.netlify.app/
 - ~~Add a UI.~~
 - Add checks and code to prevent negative numbers
 - Add warnings for larger inventory size calculations
-- tweak positiong and responsive design of ui
+- ~~tweak positiong and responsive design of ui~~
+- Improving styling
+- add cent units to ui
 - Add sorting
   - add a sort function for inventory
   - auto sort inventory on html

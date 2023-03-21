@@ -14,6 +14,7 @@ function addToInventory() {
     refreshInventory();
 
     localStorage.setItem('stamps', JSON.stringify(stamps));
+    val.focus();
 }
 
 function refreshInventory() {
