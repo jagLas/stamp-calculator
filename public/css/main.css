@@ -24,6 +24,7 @@ input[type="number"] {
     margin: 16px 0px;
     flex-wrap: wrap;
     max-width: 722px;
+    justify-content: flex-start;
 }
 
 #controls > form {
