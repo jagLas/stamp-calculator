@@ -99,9 +99,14 @@ export function findBestCombo(inventory, postage) {
     if (inventoryCopy.calcValue() < postage) {
         return 'Not Enough for Postage'
     }
-
+    // debugger
     //Finds all possible combinations of stamps less than or equal to the postage
     let combos = selectStamps(inventory, postage);
+
+    //fixes bug where function breaks if no combos are returned
+    if (!combos) {
+        combos = [];
+    }
 
     //calculates each one's total value and the number of stamps
     combos.forEach(combo => {
@@ -148,14 +153,4 @@ export function findBestCombo(inventory, postage) {
 // mom.addStamp(41, 12);
 
 // console.log(findBestCombo(mom, 49))
-
-// let momParse = JSON.parse(JSON.stringify(mom));
-// const momReparsed = new Inventory();
-// for (const stamp in momParse) {
-//     momReparsed.addStamp(momParse[stamp].val, momParse[stamp].qty)
-// }
-// console.log(momReparsed)
-// // momParse.addStamp(1,99)
-
-
 // console.log(findBestCombo(mom, 500))

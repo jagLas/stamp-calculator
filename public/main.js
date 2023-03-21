@@ -23,20 +23,30 @@ function refreshInventory() {
         const stamp = stamps[entry];
         const stampDiv = document.createElement('div');
 
-        const quantity = document.createElement('span');
-        quantity.innerText = `${stamp.qty} x `
-        stampDiv.appendChild(quantity)
-
         const value = document.createElement('span');
         value.innerText = stamp.val;
         stampDiv.appendChild(value);
+
+        const quantity = document.createElement('span');
+        quantity.innerText = ` x ${stamp.qty}`
+        stampDiv.appendChild(quantity)
 
         inventory.appendChild(stampDiv)
     }
 }
 
-window.onload = () => {
+function restoreInventory() {
+    let stampJSON = localStorage.getItem('stamps');
+    stampJSON = JSON.parse(stampJSON);
+    console.log(stampJSON)
+
+    for (const stamp in stampJSON) {
+        stamps.addStamp(stampJSON[stamp].val, stampJSON[stamp].qty)
+    }
     console.log(stamps)
+}
+
+window.onload = () => {
     const submit = document.querySelector('#addStampButton');
     submit.addEventListener('click', (e)=> {
         e.preventDefault();
@@ -46,4 +56,7 @@ window.onload = () => {
         const res = findBestCombo(stamps, 4);
         console.log(res)
     })
+
+    restoreInventory();
+    refreshInventory();
 }
