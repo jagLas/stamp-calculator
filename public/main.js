@@ -10,7 +10,31 @@ function addToInventory() {
     stamps.addStamp(parseInt(val.value), parseInt(qty.value));
     val.value = '';
     qty.value = '';
+    refreshInventory();
+    console.log(stamps)
 }
+
+function refreshInventory() {
+    const inventory = document.querySelector('#inventory')
+    inventory.innerHTML = '';
+
+    for (const entry in stamps) {
+        const stamp = stamps[entry];
+        const stampDiv = document.createElement('div');
+
+        const quantity = document.createElement('span');
+        quantity.innerText = `${stamp.qty} x `
+        stampDiv.appendChild(quantity)
+
+        const value = document.createElement('span');
+        value.innerText = stamp.val;
+        stampDiv.appendChild(value);
+
+        inventory.appendChild(stampDiv)
+    }
+}
+
+
 
 
 window.onload = () => {
@@ -19,5 +43,9 @@ window.onload = () => {
     submit.addEventListener('click', (e)=> {
         e.preventDefault();
         addToInventory();
+    })
+    document.querySelector('#calculate').addEventListener('click', (e) => {
+        const res = findBestCombo(stamps, 4);
+        console.log(res)
     })
 }
