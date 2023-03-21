@@ -68,14 +68,14 @@ export class Inventory {
 // console.log(test.calcQty())
 // console.log(test)
 
-let mom = new Inventory;
-mom.addStamp(2, 11);
-mom.addStamp(4, 9);
-mom.addStamp(17, 27);
-mom.addStamp(23, 12);
-mom.addStamp(37, 33);
-mom.addStamp(39, 5);
-mom.addStamp(41, 12);
-console.log(mom);
-mom.clearInventory();
-console.log(mom)
+// let test2 = new Inventory;
+// test2.addStamp(2, 11);
+// test2.addStamp(4, 9);
+// test2.addStamp(17, 27);
+// test2.addStamp(23, 12);
+// test2.addStamp(37, 33);
+// test2.addStamp(39, 5);
+// test2.addStamp(41, 12);
+// console.log(test2);
+// test2.clearInventory();
+// console.log(test2)

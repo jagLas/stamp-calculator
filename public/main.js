@@ -18,7 +18,9 @@ function addToInventory() {
 function refreshInventory() {
     const inventory = document.querySelector('#inventory')
     inventory.innerHTML = '';
-    inventory.appendChild(inventoryToHTML(stamps));
+
+    console.log(inventoryToHTML(stamps).children)
+    inventory.append(inventoryToHTML(stamps));
 }
 
 function inventoryToHTML(inventory) {
@@ -26,17 +28,25 @@ function inventoryToHTML(inventory) {
         throw new TypeError('input must be of class inventory')
     }
 
-    const div = document.createElement('div');
+    const div = document.createDocumentFragment();
     for (const entry in inventory) {
         const stamp = inventory[entry];
         const stampDiv = document.createElement('div');
+        stampDiv.setAttribute('class', 'stamp')
 
         const value = document.createElement('span');
+        value.setAttribute('class', 'value')
         value.innerText = stamp.val;
         stampDiv.appendChild(value);
 
+        const mult = document.createElement('div');
+        mult.setAttribute('class', 'mult');
+        mult.innerText = 'X'
+        stampDiv.appendChild(mult);
+
         const quantity = document.createElement('span');
-        quantity.innerText = ` x ${stamp.qty}`
+        quantity.setAttribute('class', 'quantity')
+        quantity.innerText = stamp.qty
         stampDiv.appendChild(quantity)
 
         div.appendChild(stampDiv)
