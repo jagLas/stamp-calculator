@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script type="module" src="main.js"></script>
-    <link rel="stylesheet" href="./main.css">
+    <link rel="stylesheet" href="./css/main.css">
 </head>
 <body>
     <h1>Stamp Calculator</h1>
@@ -28,14 +28,17 @@
     <div id="inventory" class="inventory">
 
     </div>
-    <div id>
+    <div id="calculator">
         <label for="postage">Enter desired postage in cents:</label>
-        <input class="big" type="number" name="postage">
+        <input id="desired-postage" class="big" type="number" name="postage" min="0">
         <button id="calculate">Calculate</button>
     </div>
     <div id="result">
-        <div>Stamps: <span id="res-qty"></span></div>
-        <div>Postage: <span id="postage"></span></div>
+        <div id="summary">
+            <div>Stamps Used: <span id="res-qty"></span></div>
+            <div>Actual Postage: <span id="postage"></span></div>
+        </div>
+        <h2>Stamps needed</h2>
         <div class="inventory"></div>
     </div>
 </body>

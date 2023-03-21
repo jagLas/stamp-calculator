@@ -57,6 +57,7 @@ function inventoryToHTML(inventory) {
 
 function refreshResult(inventory) {
     const result = document.querySelector('#result > .inventory')
+    result.innerHTML = '';
     document.querySelector('#res-qty').innerText = inventory.totalQty;
     document.querySelector('#postage').innerText = inventory.totalVal;
     delete inventory.totalQty;
@@ -84,8 +85,8 @@ window.onload = () => {
 
     document.querySelector('#calculate').addEventListener('click', (e) => {
         e.preventDefault();
-        const res = findBestCombo(stamps, 4);
-        console.log(res)
+        const postage = document.querySelector('#desired-postage');
+        const res = findBestCombo(stamps, parseInt(postage.value));
         refreshResult(res);
     })
 

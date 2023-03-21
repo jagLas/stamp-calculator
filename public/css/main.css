@@ -1,3 +1,5 @@
+@import url(./results.css);
+
 :root {
     --font-size: 32px;
 }
@@ -62,7 +64,7 @@ input[type="number"] {
     grid-area: value;
     align-items: center;
     aspect-ratio: 1/1;
-    background-image: url(./usflag.svg);
+    background-image: url(../images/usflag.svg);
     background-origin: content-box;
     background-position: center;
     background-repeat: no-repeat;

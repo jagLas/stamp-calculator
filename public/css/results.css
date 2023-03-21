@@ -1,0 +1,23 @@
+#summary {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 722px;
+    margin: 8px auto;
+}
+
+#summary > div {
+    width: 150px;
+}
+
+#calculator {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+h2 {
+    text-align: center;
+    margin: 0px auto;
+    color: blue;
+}
