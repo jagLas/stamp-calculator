@@ -21,6 +21,12 @@ function refreshInventory() {
     const inventory = document.querySelector('#inventory')
     inventory.innerHTML = '';
     inventory.append(inventoryToHTML(stamps));
+    inventory.classList.add('grid');
+    if (Object.keys(stamps).length === 0) {
+        console.log('empty')
+        inventory.classList.remove('grid');
+        inventory.innerText = 'Add stamps to the inventory to get started'
+    }
 }
 
 function inventoryToHTML(inventory, editable = true) {

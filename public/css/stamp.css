@@ -1,18 +1,26 @@
 :root {
     --stamp--size-content: 180px;
-    --stamp-size-margin: 32px;
-    --stamp-size: calc(var(--stamp--size-content) + var(--stamp-size-margin))
+    --stamp-size-margin: 16px;
+    --stamp-size: calc(var(--stamp--size-content) + var(--stamp-size-margin) * 2)
 }
 
 .inventory {
-    display: grid;
+    align-items: center;
+    border: 1px dotted black;
+    color: grey;
+    display: flex;
+    justify-content: center;
     margin: 16px auto;
     max-width: calc(var(--stamp-size) * 4);
-    width: 100vw;
-    justify-content: center;
-    grid-template-columns: repeat(auto-fill, var(--stamp-size));
+    min-height: 70px;
+    width: 95vw;
 }
 
+.inventory.grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, var(--stamp-size));
+    color: black;
+}
 
 .stamp {
     box-sizing: content-box;
