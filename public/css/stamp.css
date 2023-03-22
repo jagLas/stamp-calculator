@@ -20,6 +20,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, var(--stamp-size));
     color: black;
+    text-align: center;
 }
 
 .stamp {
