@@ -15,7 +15,7 @@ export class Inventory {
     }
 
     addStamp (val, amount = 0) {
-        if (typeof val !== 'number' || typeof amount !== 'number') {
+        if (isNaN(val) || isNaN(amount)) {
             throw new TypeError('inputs should be numbers');
         }
 
@@ -25,6 +25,15 @@ export class Inventory {
             this[stampName] = new Stamp(val, amount);
         } else {
             this[stampName].addQuantity(amount);
+        }
+
+        this.clearZeroes(stampName);
+    }
+
+    clearZeroes(stampName) {
+        if (this[stampName].qty <= 0) {
+            // console.log(`removing ${stampName} because qty is 0 or less`)
+            delete this[stampName];
         }
     }
 
@@ -61,7 +70,7 @@ export class Inventory {
     }
 
     setStamp(val, amount = 0) {
-        if (typeof val !== 'number' || typeof amount !== 'number') {
+        if (isNaN(val) || isNaN(amount)) {
             throw new TypeError('inputs should be numbers');
         }
 
@@ -72,6 +81,8 @@ export class Inventory {
         } else {
             this[stampName].qty = amount;
         }
+
+        this.clearZeroes(stampName);
     }
 }
 

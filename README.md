@@ -19,19 +19,22 @@ npm start
 The app is currently deployed at https://jaglas-stamp-calculator.netlify.app/
 
 ## To-do
+
+### Uncompleted
 - More rigorous testing
-- ~~Add a UI.~~
 - Add checks and code to prevent negative numbers
 - Add warnings for larger inventory size calculations
-- ~~tweak positiong and responsive design of ui~~
 - Improving styling
-- add cent units to ui
 - Add sorting
   - add a sort function for inventory
   - auto sort inventory on html
-- add ability to delete stamps:
-  - add a delete function for stamp
-  - add delete button to html
 - make code more efficient
   - write unit tests for functions
   - change algorithm to return first found
+
+  ### Completed
+- ~~Add a UI.~~
+- ~~tweak positiong and responsive design of ui~~
+- ~~add cent units to ui~~
+- ~~add ability to delete stamps:~~
+  - ~~remove stamps when quantity is 0 or less~~

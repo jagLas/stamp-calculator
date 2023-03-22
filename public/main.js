@@ -2,7 +2,6 @@ import { findBestCombo } from "./stampFunction.js"
 import { Inventory } from "./classes.js"
 
 const stamps = new Inventory();
-const resultStamps = new Inventory();
 
 function addToInventory() {
     const val = document.querySelector('#value');
@@ -11,6 +10,7 @@ function addToInventory() {
     stamps.addStamp(parseInt(val.value), parseInt(qty.value));
     val.value = '';
     qty.value = '';
+    console.log('inventory updating...new inventory:', stamps)
     refreshInventory();
 
     localStorage.setItem('stamps', JSON.stringify(stamps));
@@ -23,7 +23,7 @@ function refreshInventory() {
     inventory.append(inventoryToHTML(stamps));
     inventory.classList.add('grid');
     if (Object.keys(stamps).length === 0) {
-        console.log('empty')
+        console.log('Inventory is currently empty')
         inventory.classList.remove('grid');
         inventory.innerText = 'Add stamps to the inventory to get started'
     }
@@ -58,11 +58,10 @@ function inventoryToHTML(inventory, editable = true) {
             quantity.value = stamp.qty
 
             quantity.addEventListener('change', (e) => {
-                console.log(stamps);
                 stamps.setStamp(parseInt(stamp.val), parseInt(quantity.value));
                 localStorage.setItem('stamps', JSON.stringify(stamps));
-                console.log('inventory updating')
-                console.log(stamps);
+                console.log('inventory updating...new inventory:', stamps);
+                refreshInventory();
             })
         } else {
             quantity = document.createElement('span');
@@ -82,6 +81,7 @@ function inventoryToHTML(inventory, editable = true) {
 function refreshResult(inventory) {
     const result = document.querySelector('#result > .inventory')
     result.innerHTML = '';
+    result.classList.add('grid')
     document.querySelector('#res-qty').innerText = inventory.totalQty;
     document.querySelector('#postage').innerText = inventory.totalVal;
     delete inventory.totalQty;
@@ -95,9 +95,9 @@ function restoreInventory() {
     stampJSON = JSON.parse(stampJSON);
 
     for (const stamp in stampJSON) {
-        stamps.addStamp(stampJSON[stamp].val, stampJSON[stamp].qty)
+        stamps.addStamp(stampJSON[stamp].val, stampJSON[stamp].qty);
     }
-    console.log(stamps)
+    console.log('previous inventory:', stamps);
 }
 
 window.onload = () => {
