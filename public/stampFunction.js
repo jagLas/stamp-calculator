@@ -7,8 +7,8 @@ function selectStamps(inventory, target) {
         throw new TypeError('argument not an instance of Inventory')
     }
 
-    if (typeof target !== 'number') {
-        throw new TypeError('argument should be a number')
+    if (isNaN(target)) {
+        throw new TypeError('target argument should be a number')
     }
 
     //creates a deep copy of the inventory for modification
@@ -95,6 +95,10 @@ function copyInventory (inventory) {
 }
 
 export function findBestCombo(inventory, postage) {
+    if (isNaN(postage)) {
+        throw new TypeError('postage should be a number');
+    }
+
     let inventoryCopy = copyInventory(inventory);
     if (inventoryCopy.calcValue() < postage) {
         return 'Not Enough for Postage'

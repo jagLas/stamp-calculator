@@ -15,7 +15,7 @@ export class Inventory {
     }
 
     addStamp (val, amount = 0) {
-        if (typeof val !== 'number' || typeof amount !== 'number') {
+        if (isNaN(val) || isNaN(amount)) {
             throw new TypeError('inputs should be numbers');
         }
 
@@ -70,7 +70,7 @@ export class Inventory {
     }
 
     setStamp(val, amount = 0) {
-        if (typeof val !== 'number' || typeof amount !== 'number') {
+        if (isNaN(val) || isNaN(amount)) {
             throw new TypeError('inputs should be numbers');
         }
 
