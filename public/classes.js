@@ -26,6 +26,15 @@ export class Inventory {
         } else {
             this[stampName].addQuantity(amount);
         }
+
+        this.clearZeroes(stampName);
+    }
+
+    clearZeroes(stampName) {
+        if (this[stampName].qty <= 0) {
+            // console.log(`removing ${stampName} because qty is 0 or less`)
+            delete this[stampName];
+        }
     }
 
     clearInventory(){
@@ -72,6 +81,8 @@ export class Inventory {
         } else {
             this[stampName].qty = amount;
         }
+
+        this.clearZeroes(stampName);
     }
 }
 
