@@ -15,15 +15,12 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: 8px;
+    margin: 8px auto 0px;
 }
 
-h2 {
-    text-align: center;
-    margin: 0px auto;
-    color: #002868;
-}
+
 
 #result {
     width: 100%;
-    margin: 16px auto;
+    margin: 8px auto;
 }

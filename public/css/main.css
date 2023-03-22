@@ -16,6 +16,13 @@ h1 {
     text-align: center;
 }
 
+h2 {
+    text-align: center;
+    margin: 0px auto;
+    color: #002868;
+    margin: 8px auto;
+}
+
 input[type="number"] {
     width: 64px;
 }
@@ -32,6 +39,7 @@ input[type="number"] {
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
+    margin: 8px auto;
 }
 
 .form-group {
