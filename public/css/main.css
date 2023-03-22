@@ -12,7 +12,7 @@ body {
 }
 
 h1 {
-    color: blue;
+    color: #002868;
     text-align: center;
 }
 
@@ -40,4 +40,29 @@ input[type="number"] {
     align-items: center;
     justify-content: center;
     gap: 8px;
+}
+
+button, input[type="submit"] {
+    background-color: #BF0A30;
+    border-bottom: 2px solid #002868;
+    border-right: 2px solid #002868;
+    border-top: 2px solid #002868;
+    border-left: 2px solid #002868;
+    border-radius: 4px;
+    color: white;
+    padding: 4px 8px;
+}
+
+button:hover, input[type="submit"]:hover {
+    background-color: #e60e3d;
+    transition: background-color .5s;
+}
+
+button:active, input[type="submit"]:active {
+    background-color: #e60e3d;
+    border-top: 2px solid #4474c2d0;
+    border-left: 2px solid #4474c2d0;
+    border-bottom: 2px solid #4474c2d0;
+    border-right: 2px solid #4474c2d0;
+    transition: background-color .5s;
 }
