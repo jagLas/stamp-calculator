@@ -13,7 +13,7 @@
     margin: 16px auto;
     max-width: calc(var(--stamp-size) * 4);
     min-height: 70px;
-    width: 95vw;
+    width: 100%;
 }
 
 .inventory.grid{
@@ -31,6 +31,7 @@
     display: grid;
     grid-template-columns: 1fr .25fr .75fr;
     grid-template-areas: "value mult quantity";
+    justify-content: space-between;
     font-size: 32px;
     margin: 16px var(--stamp-size-margin);
     align-items: center;
@@ -42,7 +43,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 50%;
+    font-size: 40%;
+    width: 100%;
 }
 
 .value {
@@ -74,7 +76,7 @@
 }
 
 input[type="number"].quantity {
-    font-size: 32px;
-    width: 60px;
+    font-size: 100%;
+    width: 100%;
     text-align: start;
 }
