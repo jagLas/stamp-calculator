@@ -62,11 +62,15 @@
     -webkit-text-stroke-color: black;
     display: flex;
     font-family: sans-serif;
-    font-weight: bold;
+    font-weight: 700;
     grid-area: value;
     justify-content: center;
     min-width: 80px;
     padding: 4px;
+}
+
+.value::after {
+    content: "\00A2";
 }
 
 .quantity {
