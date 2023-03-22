@@ -82,6 +82,7 @@ function inventoryToHTML(inventory, editable = true) {
 function refreshResult(inventory) {
     const result = document.querySelector('#result > .inventory')
     result.innerHTML = '';
+    result.classList.add('grid')
     document.querySelector('#res-qty').innerText = inventory.totalQty;
     document.querySelector('#postage').innerText = inventory.totalVal;
     delete inventory.totalQty;

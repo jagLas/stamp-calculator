@@ -72,7 +72,8 @@
     box-sizing: border-box;
     grid-area: quantity;
     align-self: center;
-    justify-self: center;
+    justify-self: flex-start;
+    width: fit-content;
 }
 
 input[type="number"].quantity {
