@@ -1,7 +1,7 @@
 :root {
     --stamp--size-content: 180px;
     --stamp-size-margin: 16px;
-    --stamp-size: calc(var(--stamp--size-content) + var(--stamp-size-margin) * 2)
+    --stamp-size: calc(var(--stamp--size-content) + var(--stamp-size-margin) * 2);
 }
 
 .inventory {
@@ -17,34 +17,37 @@
 }
 
 .inventory.grid{
+    color: black;
     display: grid;
     grid-template-columns: repeat(auto-fit, var(--stamp-size));
-    color: black;
     text-align: center;
 }
 
 .stamp {
+    align-items: center;
+    animation-fill-mode: forwards;
+    animation-iteration-count: 1;
+    animation: fadeInAnimation ease 1s;
     box-sizing: content-box;
+    display: grid;
+    font-size: 32px;
+    grid-template-areas: "value mult quantity";
+    grid-template-columns: 1fr .25fr .75fr;
+    justify-content: space-between;
+    margin: 16px var(--stamp-size-margin);
+    min-height: 64px;
+    min-width: 64px;
     width: fit-content;
     width: var(--stamp--size-content);
-    min-width: 64px;
-    min-height: 64px;
-    display: grid;
-    grid-template-columns: 1fr .25fr .75fr;
-    grid-template-areas: "value mult quantity";
-    justify-content: space-between;
-    font-size: 32px;
-    margin: 16px var(--stamp-size-margin);
-    align-items: center;
 }
 
 .mult{
-    grid-area: mult;
+    align-items: center;
     content: "X";
     display: flex;
-    justify-content: center;
-    align-items: center;
     font-size: 40%;
+    grid-area: mult;
+    justify-content: center;
     width: 100%;
 }
 
@@ -73,15 +76,24 @@
 }
 
 .quantity {
+    align-self: center;
     box-sizing: border-box;
     grid-area: quantity;
-    align-self: center;
     justify-self: flex-start;
     width: fit-content;
 }
 
 input[type="number"].quantity {
     font-size: 100%;
-    width: 100%;
     text-align: start;
+    width: 100%;
+}
+
+@keyframes fadeInAnimation {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }

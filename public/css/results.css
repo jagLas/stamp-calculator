@@ -1,9 +1,9 @@
 #summary {
     display: flex;
-    justify-content: center;
     flex-wrap: wrap;
-    max-width: 722px;
+    justify-content: center;
     margin: 8px auto;
+    max-width: 722px;
 }
 
 #summary > div {
@@ -13,14 +13,14 @@
 #calculator {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     gap: 8px;
+    justify-content: center;
     margin: 8px auto 0px;
 }
 
 
 
 #result {
-    width: 100%;
     margin: 8px auto;
+    width: 100%;
 }
