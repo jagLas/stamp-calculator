@@ -3,25 +3,41 @@ import { Inventory } from "./classes.js"
 
 const stamps = new Inventory();
 
+//function to enter data from form controls into stamps inventory
 function addToInventory() {
+    //uses the value and quantity inputs to add them to inventory
     const val = document.querySelector('#value');
     const qty = document.querySelector('#quantity');
-    // debugger
     stamps.addStamp(parseInt(val.value), parseInt(qty.value));
+
+    //changes the inputs back to empty
     val.value = '';
     qty.value = '';
     console.log('inventory updating...new inventory:', stamps)
+
+    //updates the dom to reflect changes to stamps inventory
     refreshInventory();
 
+    //saves inventory to local storage after modification
     localStorage.setItem('stamps', JSON.stringify(stamps));
+
+    //puts focus back on the first input of the form
     val.focus();
 }
 
+//refreshes the html of inventory
 function refreshInventory() {
     const inventory = document.querySelector('#inventory')
+    //resets inventory to blank so duplicates aren't created
     inventory.innerHTML = '';
+    
+    //adds all items to the inventory
     inventory.append(inventoryToHTML(stamps));
+
+    //turns css into grid class
     inventory.classList.add('grid');
+
+    //if no stamps are added, remove grid class and show inner text
     if (Object.keys(stamps).length === 0) {
         console.log('Inventory is currently empty')
         inventory.classList.remove('grid');
@@ -29,6 +45,7 @@ function refreshInventory() {
     }
 }
 
+//Creates a series of stamp divs to be displayed in inventory
 function inventoryToHTML(inventory, editable = true) {
     if (inventory instanceof Inventory === false) {
         throw new TypeError('input must be of class inventory')
@@ -57,11 +74,16 @@ function inventoryToHTML(inventory, editable = true) {
             quantity.setAttribute('type', 'number')
             quantity.value = stamp.qty
 
+            //creates the listener so that inventory amounts can be altered
             quantity.addEventListener('change', (e) => {
                 stamps.setStamp(parseInt(stamp.val), parseInt(quantity.value));
                 localStorage.setItem('stamps', JSON.stringify(stamps));
                 console.log('inventory updating...new inventory:', stamps);
-                refreshInventory();
+
+                //refreshes shown inventory only if a stamp would be removed
+                if (parseInt(quantity.value) <= 0){
+                    refreshInventory();
+                }
             })
         } else {
             quantity = document.createElement('span');
