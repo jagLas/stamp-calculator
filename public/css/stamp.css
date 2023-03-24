@@ -106,8 +106,9 @@ input[type="number"].quantity {
     position: relative;
     top: var(--inventory-height);
     opacity: 0;
-    transition: 1s;
-    transition-timing-function: ease-in;
+    transition: .75s;
+    transition-timing-function: linear;
+    z-index: -1;
 }
 
 @keyframes fadeInAnimation {
