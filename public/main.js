@@ -74,6 +74,26 @@ function refreshInventory() {
     }
 
     showInstructions();
+    getNumRows();
+}
+
+//this function calculates how big the css grid is in pixels and sets the css variable for transition
+function getNumRows() {
+    const root = document.documentElement
+    let gridRows = getComputedStyle(document.querySelector('#inventory'));
+    gridRows = gridRows.getPropertyValue('grid-template-rows')
+    gridRows = gridRows.split('px ')
+    let lastEntry = gridRows[gridRows.length - 1]
+    gridRows[gridRows.length - 1] = lastEntry.slice(0, lastEntry.indexOf('px'))
+    gridRows.map(rowHeight => {
+        return Number(rowHeight)
+    })
+    let divHeight = 0;
+    gridRows.forEach(height => {
+        divHeight += Number(height);
+    });
+    console.log(divHeight.toString() + 'px')
+    root.style.setProperty('--inventory-height', divHeight.toString() + 'px')
 }
 
 function showInstructions () {
@@ -83,10 +103,10 @@ function showInstructions () {
         //if yes, removed hidden tag and turn into flexbox
         console.log('Inventory is currently empty')
         inventory.classList.remove('grid');
-        document.querySelector('#instructions').setAttribute('class', '')
+        document.querySelector('#instructions').classList.remove('hidden')
     } else {
         //if not, apply grid class to inventory and add hidden class to instructions
-        document.querySelector('#instructions').setAttribute('class', 'hidden')
+        document.querySelector('#instructions').classList.add('hidden')
         //turns css into grid class if stamps present
         inventory.classList.add('grid');
     }
@@ -100,9 +120,9 @@ function removeStamps(array) {
         const stampDiv = document.querySelector(`[data-stampname="${stamp}"]`);
         stampDiv.classList.add('deleted');
         stampDiv.ontransitionend = () => {
-            // debugger
             stampDiv.remove();
             showInstructions();
+            getNumRows();
         }
     })
 

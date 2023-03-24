@@ -8,11 +8,6 @@
     display: none;
 }
 
-.deleted {
-    opacity: 0;
-    transition: 1s;
-}
-
 #instructions {
     position: absolute;
     animation-fill-mode: forwards;
@@ -21,7 +16,7 @@
 }
 
 .inventory {
-    /* position: relative; */
+    overflow: hidden;
     align-items: center;
     border: 1px dotted black;
     color: grey;
@@ -37,15 +32,15 @@
     color: black;
     display: grid;
     grid-template-columns: repeat(auto-fit, var(--stamp-size));
-    text-align: center;
-    transition: 2s;
 }
 
 .stamp {
+    position: relative;
+    top: 0px;
     align-items: center;
     animation-fill-mode: forwards;
     animation-iteration-count: 1;
-    animation: fadeInAnimation linear 1s;
+    animation: fadeInAnimation ease-in 1s, slideIn ease-out .75s;
     box-sizing: content-box;
     display: grid;
     font-size: 32px;
@@ -107,6 +102,14 @@ input[type="number"].quantity {
     width: 100%;
 }
 
+.deleted {
+    position: relative;
+    top: var(--inventory-height);
+    opacity: 0;
+    transition: 1s;
+    transition-timing-function: ease-in;
+}
+
 @keyframes fadeInAnimation {
     0% {
         opacity: 0;
@@ -115,3 +118,13 @@ input[type="number"].quantity {
         opacity: 1;
     }
 }
+
+@keyframes slideIn {
+    0% {
+        top: 100px;
+    }
+    100% {
+        top: 0px;
+    }
+}
+
