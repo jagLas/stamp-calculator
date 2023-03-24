@@ -4,6 +4,10 @@
     --stamp-size: calc(var(--stamp--size-content) + var(--stamp-size-margin) * 2);
 }
 
+.hidden {
+    display: none;
+}
+
 .inventory {
     align-items: center;
     border: 1px dotted black;
@@ -21,6 +25,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, var(--stamp-size));
     text-align: center;
+    transition: 2s;
 }
 
 .stamp {

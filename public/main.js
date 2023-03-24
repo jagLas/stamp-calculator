@@ -28,21 +28,116 @@ function addToInventory() {
 //refreshes the html of inventory
 function refreshInventory() {
     const inventory = document.querySelector('#inventory')
-    //resets inventory to blank so duplicates aren't created
-    inventory.innerHTML = '';
-    
-    //adds all items to the inventory
-    inventory.append(inventoryToHTML(stamps));
 
-    //turns css into grid class
-    inventory.classList.add('grid');
+    //make a list of all stamps still in inventory
+    let stampNames = Object.keys(stamps);
+    console.log('Stamps in inventory', stampNames)
+
+    //create a list of stamps already in dom
+    const domStamps = inventory.children;
+    const domStampNames = [];
+    for (let i = 0; i < domStamps.length; i++) {
+        const stampDiv = domStamps[i];
+        const stampName = stampDiv.dataset.stampname;
+        if(stampName) {
+            domStampNames.push(stampName);
+        }
+    }
+
+    console.log('Stamps in dom', domStampNames)
+
+    //Make a list of elements to remove from the dom and remove them
+    const toRemoveStamps = [];
+    domStampNames.forEach(stampName => {
+        if (!stampNames.includes(stampName)) {
+            toRemoveStamps.push(stampName)
+        }
+    })
+    removeStamps(toRemoveStamps);
+
+
+    //Go through each stamp in inventory and
+    for (const stampName in stamps) {
+        //find the stamps quantity and find it's input field
+        const stamp = stamps[stampName];
+        const quantity = stamp.qty;
+        const input = document.querySelector(`[data-stampName="${stampName}"] > input`);
+        if (input) {
+            //if the input already exists, update the quantity
+            input.value = quantity;
+        } else {
+            //otherwise, make a new stamp div and add to DOM
+            console.log('adding', stampName);
+            const newStamp = makeStamp(stampName, true);
+            inventory.append(newStamp)
+        }
+    }
 
     //if no stamps are added, remove grid class and show inner text
     if (Object.keys(stamps).length === 0) {
         console.log('Inventory is currently empty')
         inventory.classList.remove('grid');
-        inventory.innerText = 'Add stamps to the inventory to get started'
+        document.querySelector('#instructions').setAttribute('class', '')
+    } else {
+        document.querySelector('#instructions').setAttribute('class', 'hidden')
+        //turns css into grid class if stamps present
+        inventory.classList.add('grid');
     }
+}
+
+function removeStamps(array) {
+    // console.log('Stamps to remove', array)
+    array.forEach(stamp => {
+        console.log('removing', stamp);
+        document.querySelector(`[data-stampname="${stamp}"]`).remove();
+    })
+
+}
+
+function makeStamp(stampName, editable = false, inventory = stamps) {
+    const stamp = inventory[stampName];
+    const stampDiv = document.createElement('div');
+    stampDiv.setAttribute('data-stampName', stampName)
+    stampDiv.setAttribute('class', 'stamp')
+
+    const value = document.createElement('span');
+    value.setAttribute('class', 'value')
+    value.innerText = stamp.val;
+    stampDiv.appendChild(value);
+
+    const mult = document.createElement('div');
+    mult.setAttribute('class', 'mult');
+    mult.innerText = 'X'
+    stampDiv.appendChild(mult);
+
+    let quantity;
+
+    if(editable) {
+        quantity = document.createElement('input');
+        quantity.setAttribute('type', 'number')
+        quantity.value = stamp.qty
+
+        //creates the listener so that inventory amounts can be altered
+        quantity.addEventListener('change', (e) => {
+            stamps.setStamp(parseInt(stamp.val), parseInt(quantity.value));
+            localStorage.setItem('stamps', JSON.stringify(stamps));
+            console.log('inventory updating...new inventory:', stamps);
+
+            //refreshes shown inventory only if a stamp would be removed
+            if (parseInt(quantity.value) <= 0){
+                refreshInventory();
+            }
+        })
+    } else {
+        quantity = document.createElement('span');
+        quantity.innerText = stamp.qty
+    }
+
+    quantity.setAttribute('class', 'quantity')
+
+
+    stampDiv.appendChild(quantity)
+    return stampDiv
 }
 
 //Creates a series of stamp divs to be displayed in inventory
@@ -51,50 +146,9 @@ function inventoryToHTML(inventory, editable = true) {
         throw new TypeError('input must be of class inventory')
     }
 
-    const div = document.createDocumentFragment();
+    const div = document.createDocumentFragment('div');
     for (const entry in inventory) {
-        const stamp = inventory[entry];
-        const stampDiv = document.createElement('div');
-        stampDiv.setAttribute('class', 'stamp')
-
-        const value = document.createElement('span');
-        value.setAttribute('class', 'value')
-        value.innerText = stamp.val;
-        stampDiv.appendChild(value);
-
-        const mult = document.createElement('div');
-        mult.setAttribute('class', 'mult');
-        mult.innerText = 'X'
-        stampDiv.appendChild(mult);
-
-        let quantity;
-
-        if(editable) {
-            quantity = document.createElement('input');
-            quantity.setAttribute('type', 'number')
-            quantity.value = stamp.qty
-
-            //creates the listener so that inventory amounts can be altered
-            quantity.addEventListener('change', (e) => {
-                stamps.setStamp(parseInt(stamp.val), parseInt(quantity.value));
-                localStorage.setItem('stamps', JSON.stringify(stamps));
-                console.log('inventory updating...new inventory:', stamps);
-
-                //refreshes shown inventory only if a stamp would be removed
-                if (parseInt(quantity.value) <= 0){
-                    refreshInventory();
-                }
-            })
-        } else {
-            quantity = document.createElement('span');
-            quantity.innerText = stamp.qty
-        }
-
-        quantity.setAttribute('class', 'quantity')
-
-
-        stampDiv.appendChild(quantity)
-        div.appendChild(stampDiv)
+        div.appendChild(makeStamp(entry, editable, inventory))
     }
 
     return div;
@@ -119,7 +173,7 @@ function restoreInventory() {
     for (const stamp in stampJSON) {
         stamps.addStamp(stampJSON[stamp].val, stampJSON[stamp].qty);
     }
-    console.log('previous inventory:', stamps);
+    console.log('Loading inventory from localStorage:', stamps);
 }
 
 window.onload = () => {
