@@ -104,10 +104,11 @@ input[type="number"].quantity {
 
 .deleted {
     position: relative;
-    top: var(--inventory-height);
+    /* uncomment the top style to reenable slide out transitions */
+    /* top: var(--inventory-height);  */
     opacity: 0;
-    transition: .75s;
-    transition-timing-function: linear;
+    transition: .25s;
+    transition-timing-function: ease;
     z-index: -1;
 }
 

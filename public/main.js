@@ -74,7 +74,7 @@ function refreshInventory() {
     }
 
     showInstructions();
-    getNumRows();
+    // getNumRows(); //uncomment if turning back on slide out transitions
 }
 
 //this function calculates how big the css grid is in pixels and sets the css variable for transition
