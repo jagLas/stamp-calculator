@@ -73,12 +73,19 @@ function refreshInventory() {
         }
     }
 
-    //if no stamps are added, remove grid class and show inner text
-    if (Object.keys(stamps).length === 0) {
+    showInstructions();
+}
+
+function showInstructions () {
+    const inventory = document.querySelector('#inventory');
+    //check if instructions are the only thing in inventory
+    if (inventory.children.length <= 1) {
+        //if yes, removed hidden tag and turn into flexbox
         console.log('Inventory is currently empty')
         inventory.classList.remove('grid');
         document.querySelector('#instructions').setAttribute('class', '')
     } else {
+        //if not, apply grid class to inventory and add hidden class to instructions
         document.querySelector('#instructions').setAttribute('class', 'hidden')
         //turns css into grid class if stamps present
         inventory.classList.add('grid');
@@ -89,7 +96,14 @@ function removeStamps(array) {
     // console.log('Stamps to remove', array)
     array.forEach(stamp => {
         console.log('removing', stamp);
-        document.querySelector(`[data-stampname="${stamp}"]`).remove();
+        // document.querySelector(`[data-stampname="${stamp}"]`).remove();
+        const stampDiv = document.querySelector(`[data-stampname="${stamp}"]`);
+        stampDiv.classList.add('deleted');
+        stampDiv.ontransitionend = () => {
+            // debugger
+            stampDiv.remove();
+            showInstructions();
+        }
     })
 
 }

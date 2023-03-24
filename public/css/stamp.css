@@ -8,7 +8,20 @@
     display: none;
 }
 
+.deleted {
+    opacity: 0;
+    transition: 1s;
+}
+
+#instructions {
+    position: absolute;
+    animation-fill-mode: forwards;
+    animation-iteration-count: 1;
+    animation: fadeInAnimation ease 1s;
+}
+
 .inventory {
+    /* position: relative; */
     align-items: center;
     border: 1px dotted black;
     color: grey;
@@ -16,7 +29,7 @@
     justify-content: center;
     margin: 16px auto;
     max-width: calc(var(--stamp-size) * 4);
-    min-height: 70px;
+    min-height: 123px;
     width: 100%;
 }
 
@@ -32,7 +45,7 @@
     align-items: center;
     animation-fill-mode: forwards;
     animation-iteration-count: 1;
-    animation: fadeInAnimation ease 1s;
+    animation: fadeInAnimation linear 1s;
     box-sizing: content-box;
     display: grid;
     font-size: 32px;
