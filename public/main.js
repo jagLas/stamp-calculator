@@ -73,9 +73,15 @@ function refreshInventory() {
         }
     })
     
-    //the following removes the last stampDiv if inventory is shorter than number of divs
+    //the following removes adds any divs that are longer than the inventory to the removeQueue
     if(domStamps.length - 1 > stampNames.length) {
-        removeQueue.push(inventory.lastChild.dataset.stampname);
+        let i = 1 + stampNames.length;
+        while (i < domStamps.length) {
+            const name = domStamps[i].dataset.stampname;
+            console.log(name)
+            removeQueue.push(name);
+            i++;
+        }
     }
 
     //global stamp queue is necessary for now so that the add stamps function can access it
