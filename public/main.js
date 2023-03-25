@@ -43,34 +43,37 @@ function refreshInventory() {
     //create a list of stamps already in dom
     const domStamps = inventory.children;
 
-    // if(domStamps.length === 1) {
-    //     stampNames.forEach(stampName => {
-    //         inventory.append(makeStamp(stampName, true));
-    //         showInstructions();
-    //     })
-    // }
-
+    //initialize a queue for stamps to be removed and made
     const makeStampQueue = [];
     const removeQueue = [];
 
+    //iterate through each stamp type in inventory
     stampNames.forEach((stampName, i) => {
+        //start at +1 to skip the instructions div
         const divI = i + 1;
         const stampDiv = domStamps[divI];
+        //if there is a corresponding stampDiv in DOM
         if (stampDiv) {
             const divName = stampDiv.dataset.stampname;
+            //check if the stamp name matches
             if (divName === stampName) {
+                //if it does update the value of the input
                 const input = document.querySelector(`[data-stampName="${stampName}"] > input`);
                 input.value = stamps[stampName].qty;
             } else {
+                //otherwise, add that div to the queue to be removed.
                 removeQueue.push(divName);
                 console.log('adding', stampName, 'to queue')
+                //and queue the stamp that should be at that position to be made
                 makeStampQueue.push(stampName);
             }
         } else {
+            //if the stamp div does not exist, then add the inventory stamp to the queue to be made into the DOM
             makeStampQueue.push(stampName)
         }
     })
     
+    //the following removes the last stampDiv if inventory is shorter than number of divs
     if(domStamps.length - 1 > stampNames.length) {
         removeQueue.push(inventory.lastChild.dataset.stampname);
     }
@@ -124,7 +127,6 @@ function removeStamps(array) {
             showInstructions();
         }
     })
-
 }
 
 function makeStamp(stampName, editable = false, inventory = stamps) {
