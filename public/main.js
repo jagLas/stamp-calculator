@@ -2,6 +2,7 @@ import { findBestCombo } from "./stampFunction.js"
 import { Inventory } from "./classes.js"
 
 const stamps = new Inventory();
+let globalStampQueue = [];
 
 //function to enter data from form controls into stamps inventory
 function addToInventory() {
@@ -27,22 +28,149 @@ function addToInventory() {
 
 //refreshes the html of inventory
 function refreshInventory() {
-    const inventory = document.querySelector('#inventory')
-    //resets inventory to blank so duplicates aren't created
-    inventory.innerHTML = '';
+    const inventory = document.querySelector('#inventory');
+
+    //make a list of all stamps still in inventory
+    let stampNames = Object.keys(stamps);
+    stampNames.sort((a, b) => {
+        if (stamps[a].val > stamps[b].val) {
+            return -1;
+        } else {
+            return 1;
+        }
+    })
+
+    //create a list of stamps already in dom
+    const domStamps = inventory.children;
+
+    // if(domStamps.length === 1) {
+    //     stampNames.forEach(stampName => {
+    //         inventory.append(makeStamp(stampName, true));
+    //         showInstructions();
+    //     })
+    // }
+
+    const makeStampQueue = [];
+    const removeQueue = [];
+
+    stampNames.forEach((stampName, i) => {
+        const divI = i + 1;
+        const stampDiv = domStamps[divI];
+        if (stampDiv) {
+            const divName = stampDiv.dataset.stampname;
+            if (divName === stampName) {
+                const input = document.querySelector(`[data-stampName="${stampName}"] > input`);
+                input.value = stamps[stampName].qty;
+            } else {
+                removeQueue.push(divName);
+                console.log('adding', stampName, 'to queue')
+                makeStampQueue.push(stampName);
+            }
+        } else {
+            makeStampQueue.push(stampName)
+        }
+    })
     
-    //adds all items to the inventory
-    inventory.append(inventoryToHTML(stamps));
+    if(domStamps.length - 1 > stampNames.length) {
+        removeQueue.push(inventory.lastChild.dataset.stampname);
+    }
 
-    //turns css into grid class
-    inventory.classList.add('grid');
+    globalStampQueue = makeStampQueue
+    removeStamps(removeQueue);
+    if (removeQueue.length === 0) {
+        makeStamps(globalStampQueue);
+        globalStampQueue = [];
+    }
 
-    //if no stamps are added, remove grid class and show inner text
-    if (Object.keys(stamps).length === 0) {
+    showInstructions();
+}
+
+function makeStamps(array) {
+    const inventory = document.querySelector('#inventory');
+    array.forEach(stampName => {
+        inventory.append(makeStamp(stampName, true));
+        showInstructions();
+    })
+}
+
+
+function showInstructions () {
+    const inventory = document.querySelector('#inventory');
+    //check if instructions are the only thing in inventory
+    if (inventory.children.length <= 1) {
+        //if yes, removed hidden tag and turn into flexbox
         console.log('Inventory is currently empty')
         inventory.classList.remove('grid');
-        inventory.innerText = 'Add stamps to the inventory to get started'
+        document.querySelector('#instructions').classList.remove('hidden')
+    } else {
+        //if not, apply grid class to inventory and add hidden class to instructions
+        document.querySelector('#instructions').classList.add('hidden')
+        //turns css into grid class if stamps present
+        inventory.classList.add('grid');
     }
+}
+
+function removeStamps(array) {
+    // console.log('Stamps to remove', array)
+    array.forEach(stamp => {
+        console.log('removing', stamp);
+        // document.querySelector(`[data-stampname="${stamp}"]`).remove();
+        const stampDiv = document.querySelector(`[data-stampname="${stamp}"]`);
+        stampDiv.classList.add('deleted');
+        stampDiv.ontransitionend = () => {
+            stampDiv.remove();
+            makeStamps(globalStampQueue);
+            globalStampQueue = [];
+            showInstructions();
+        }
+    })
+
+}
+
+function makeStamp(stampName, editable = false, inventory = stamps) {
+    const stamp = inventory[stampName];
+    const stampDiv = document.createElement('div');
+    stampDiv.setAttribute('data-stampName', stampName)
+    stampDiv.setAttribute('class', 'stamp')
+
+    const value = document.createElement('span');
+    value.setAttribute('class', 'value')
+    value.innerText = stamp.val;
+    stampDiv.appendChild(value);
+
+    const mult = document.createElement('div');
+    mult.setAttribute('class', 'mult');
+    mult.innerText = 'X'
+    stampDiv.appendChild(mult);
+
+    let quantity;
+
+    if(editable) {
+        quantity = document.createElement('input');
+        quantity.setAttribute('type', 'number')
+        quantity.value = stamp.qty
+
+        //creates the listener so that inventory amounts can be altered
+        quantity.addEventListener('change', (e) => {
+            stamps.setStamp(parseInt(stamp.val), parseInt(quantity.value));
+            localStorage.setItem('stamps', JSON.stringify(stamps));
+            console.log('inventory updating...new inventory:', stamps);
+
+            //refreshes shown inventory only if a stamp would be removed
+            if (parseInt(quantity.value) <= 0){
+                refreshInventory();
+            }
+        })
+    } else {
+        quantity = document.createElement('span');
+        quantity.innerText = stamp.qty
+    }
+
+    quantity.setAttribute('class', 'quantity')
+
+
+    stampDiv.appendChild(quantity)
+    return stampDiv
 }
 
 //Creates a series of stamp divs to be displayed in inventory
@@ -51,50 +179,9 @@ function inventoryToHTML(inventory, editable = true) {
         throw new TypeError('input must be of class inventory')
     }
 
-    const div = document.createDocumentFragment();
+    const div = document.createDocumentFragment('div');
     for (const entry in inventory) {
-        const stamp = inventory[entry];
-        const stampDiv = document.createElement('div');
-        stampDiv.setAttribute('class', 'stamp')
-
-        const value = document.createElement('span');
-        value.setAttribute('class', 'value')
-        value.innerText = stamp.val;
-        stampDiv.appendChild(value);
-
-        const mult = document.createElement('div');
-        mult.setAttribute('class', 'mult');
-        mult.innerText = 'X'
-        stampDiv.appendChild(mult);
-
-        let quantity;
-
-        if(editable) {
-            quantity = document.createElement('input');
-            quantity.setAttribute('type', 'number')
-            quantity.value = stamp.qty
-
-            //creates the listener so that inventory amounts can be altered
-            quantity.addEventListener('change', (e) => {
-                stamps.setStamp(parseInt(stamp.val), parseInt(quantity.value));
-                localStorage.setItem('stamps', JSON.stringify(stamps));
-                console.log('inventory updating...new inventory:', stamps);
-
-                //refreshes shown inventory only if a stamp would be removed
-                if (parseInt(quantity.value) <= 0){
-                    refreshInventory();
-                }
-            })
-        } else {
-            quantity = document.createElement('span');
-            quantity.innerText = stamp.qty
-        }
-
-        quantity.setAttribute('class', 'quantity')
-
-
-        stampDiv.appendChild(quantity)
-        div.appendChild(stampDiv)
+        div.appendChild(makeStamp(entry, editable, inventory))
     }
 
     return div;
@@ -119,7 +206,7 @@ function restoreInventory() {
     for (const stamp in stampJSON) {
         stamps.addStamp(stampJSON[stamp].val, stampJSON[stamp].qty);
     }
-    console.log('previous inventory:', stamps);
+    console.log('Loading inventory from localStorage:', stamps);
 }
 
 window.onload = () => {
@@ -133,6 +220,7 @@ window.onload = () => {
         const postage = document.querySelector('#desired-postage');
         const res = findBestCombo(stamps, parseInt(postage.value));
         if (res instanceof Inventory) {
+            console.log(res)
             refreshResult(res);
         } else {
             document.querySelector('#result > .inventory').innerText = res

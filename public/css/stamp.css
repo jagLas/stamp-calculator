@@ -4,7 +4,19 @@
     --stamp-size: calc(var(--stamp--size-content) + var(--stamp-size-margin) * 2);
 }
 
+.hidden {
+    display: none;
+}
+
+#instructions {
+    position: absolute;
+    animation-fill-mode: forwards;
+    animation-iteration-count: 1;
+    animation: fadeInAnimation ease 1s;
+}
+
 .inventory {
+    overflow: hidden;
     align-items: center;
     border: 1px dotted black;
     color: grey;
@@ -12,7 +24,7 @@
     justify-content: center;
     margin: 16px auto;
     max-width: calc(var(--stamp-size) * 4);
-    min-height: 70px;
+    min-height: 123px;
     width: 100%;
 }
 
@@ -20,14 +32,15 @@
     color: black;
     display: grid;
     grid-template-columns: repeat(auto-fit, var(--stamp-size));
-    text-align: center;
 }
 
 .stamp {
+    position: relative;
+    top: 0px;
     align-items: center;
     animation-fill-mode: forwards;
     animation-iteration-count: 1;
-    animation: fadeInAnimation ease 1s;
+    animation: fadeInAnimation ease-in 1s, slideIn ease-out .75s;
     box-sizing: content-box;
     display: grid;
     font-size: 32px;
@@ -89,6 +102,16 @@ input[type="number"].quantity {
     width: 100%;
 }
 
+.deleted {
+    position: relative;
+    /* uncomment the top style to reenable slide out transitions */
+    /* top: var(--inventory-height);  */
+    opacity: 0;
+    transition: .25s;
+    transition-timing-function: ease;
+    z-index: -1;
+}
+
 @keyframes fadeInAnimation {
     0% {
         opacity: 0;
@@ -97,3 +120,13 @@ input[type="number"].quantity {
         opacity: 1;
     }
 }
+
+@keyframes slideIn {
+    0% {
+        top: 100px;
+    }
+    100% {
+        top: 0px;
+    }
+}
+
