@@ -43,54 +43,68 @@ function refreshInventory() {
     //create a list of stamps already in dom
     const domStamps = inventory.children;
 
-    // if(domStamps.length === 1) {
-    //     stampNames.forEach(stampName => {
-    //         inventory.append(makeStamp(stampName, true));
-    //         showInstructions();
-    //     })
-    // }
-
+    //initialize a queue for stamps to be removed and made
     const makeStampQueue = [];
     const removeQueue = [];
 
+    //iterate through each stamp type in inventory
     stampNames.forEach((stampName, i) => {
+        //start at +1 to skip the instructions div
         const divI = i + 1;
         const stampDiv = domStamps[divI];
+        //if there is a corresponding stampDiv in DOM
         if (stampDiv) {
             const divName = stampDiv.dataset.stampname;
+            //check if the stamp name matches
             if (divName === stampName) {
+                //if it does update the value of the input
                 const input = document.querySelector(`[data-stampName="${stampName}"] > input`);
                 input.value = stamps[stampName].qty;
             } else {
+                //otherwise, add that div to the queue to be removed.
                 removeQueue.push(divName);
                 console.log('adding', stampName, 'to queue')
+                //and queue the stamp that should be at that position to be made
                 makeStampQueue.push(stampName);
             }
         } else {
+            //if the stamp div does not exist, then add the inventory stamp to the queue to be made into the DOM
             makeStampQueue.push(stampName)
         }
     })
     
+    //the following removes adds any divs that are longer than the inventory to the removeQueue
     if(domStamps.length - 1 > stampNames.length) {
-        removeQueue.push(inventory.lastChild.dataset.stampname);
+        let i = 1 + stampNames.length;
+        while (i < domStamps.length) {
+            const name = domStamps[i].dataset.stampname;
+            console.log(name)
+            removeQueue.push(name);
+            i++;
+        }
     }
 
-    globalStampQueue = makeStampQueue
+    //global stamp queue is necessary for now so that the add stamps function can access it
+    globalStampQueue = makeStampQueue;
     removeStamps(removeQueue);
+
+    //incase nothing was removed, trigger the make stamps function. Otherwise, stamps are added at the end of remove stamps function
     if (removeQueue.length === 0) {
         makeStamps(globalStampQueue);
         globalStampQueue = [];
     }
 
+    //checks if no stamps are in the div and sets styling accordingly
     showInstructions();
 }
 
+//makes stamps for the inventory screen and adds them
 function makeStamps(array) {
     const inventory = document.querySelector('#inventory');
     array.forEach(stampName => {
         inventory.append(makeStamp(stampName, true));
-        showInstructions();
     })
+    showInstructions();
 }
 
 
@@ -114,17 +128,18 @@ function removeStamps(array) {
     // console.log('Stamps to remove', array)
     array.forEach(stamp => {
         console.log('removing', stamp);
-        // document.querySelector(`[data-stampname="${stamp}"]`).remove();
-        const stampDiv = document.querySelector(`[data-stampname="${stamp}"]`);
+        //find the corresponding stampDiv
+        const stampDiv = document.querySelector(`#inventory [data-stampname="${stamp}"]`);
+        //add the deleted class for transition effect
         stampDiv.classList.add('deleted');
         stampDiv.ontransitionend = () => {
+            //remove it when transition is done, call makeStamps with the queue, and reset the queue; 
             stampDiv.remove();
             makeStamps(globalStampQueue);
             globalStampQueue = [];
             showInstructions();
         }
     })
-
 }
 
 function makeStamp(stampName, editable = false, inventory = stamps) {
