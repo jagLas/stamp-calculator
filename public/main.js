@@ -2,7 +2,6 @@ import { findBestCombo } from "./stampFunction.js"
 import { Inventory } from "./classes.js"
 
 const stamps = new Inventory();
-let result;
 let globalStampQueue = [];
 
 //function to enter data from form controls into stamps inventory
@@ -29,8 +28,7 @@ function addToInventory() {
 
 //refreshes the html of inventory
 function refreshInventory() {
-    globalStampQueue = [];
-    const inventory = document.querySelector('#inventory')
+    const inventory = document.querySelector('#inventory');
 
     //make a list of all stamps still in inventory
     let stampNames = Object.keys(stamps);
@@ -45,21 +43,12 @@ function refreshInventory() {
     //create a list of stamps already in dom
     const domStamps = inventory.children;
 
-
-    const domStampNames = [];
-    for (let i = 0; i < domStamps.length; i++) {
-        const stampDiv = domStamps[i];
-        const stampName = stampDiv.dataset.stampname;
-        if(stampName) {
-            domStampNames.push(stampName);
-        }
-    }
-
-    if(domStamps.length === 1) {
-        stampNames.forEach(stampName => {
-            inventory.append(makeStamp(stampName, true));
-    })
-    }
+    // if(domStamps.length === 1) {
+    //     stampNames.forEach(stampName => {
+    //         inventory.append(makeStamp(stampName, true));
+    //         showInstructions();
+    //     })
+    // }
 
     const makeStampQueue = [];
     const removeQueue = [];
@@ -83,93 +72,27 @@ function refreshInventory() {
     })
     
     if(domStamps.length - 1 > stampNames.length) {
-        inventory.lastChild.remove();
+        removeQueue.push(inventory.lastChild.dataset.stampname);
     }
 
-    console.log('stampQueue', makeStampQueue)
-    console.log('remove queue', removeQueue)
-    globalStampQueue = makeStampQueue;
-    console.log('global preremove', globalStampQueue)
+    globalStampQueue = makeStampQueue
     removeStamps(removeQueue);
-    console.log('Remaining stamps in queue', makeStampQueue)
-
-    // let counter = 1;
-    // while(stampNames.length > 0) {
-    //     const name = stampNames.shift();
-    //     let stampDiv = domStamps[counter];
-    //     counter++;
-    //     if (stampDiv) {
-    //         const divName = stampDiv.dataset.stampname;
-    //         if (divName === name) {
-    //             const input = document.querySelector(`[data-stampName="${name}"] > input`);
-    //             input.value = stamps[name].qty;
-    //         } else {
-    //             removeStamps([divName]);
-    //             makeStampQueue.push(name);
-    //             makeStampQueue.push(...stampNames)
-    //             while(stampDiv.nextSibling && stampDiv.nextSibling.classList.contains('deleted') !== true) {
-    //                 removeStamps([stampDiv.nextSibling.dataset.stampname])
-    //                 stampDiv = stampDiv.nextSibling;
-    //             }
-    //             break;
-    //         }
-    //     } else {
-    //         makeStampQueue.push(name);
-    //         makeStampQueue.push(...stampNames)
-    //         break;
-    //     }
-    // }
-
-
-    // console.log(stampNames, makeStampQueue)
-
-
-    //make this so it removes them from queue as processed. Turn into global variable
-    //have the remove function trigger the make items command instead of timeout
-    //find out why removing last item in list doesn't remove it
-    console.log(globalStampQueue);
-
+    if (removeQueue.length === 0) {
+        makeStamps(globalStampQueue);
+        globalStampQueue = [];
+    }
 
     showInstructions();
-    // //Go through each stamp in inventory and
-    // for (const stampName in stamps) {
-    //     //find the stamps quantity and find it's input field
-    //     const stamp = stamps[stampName];
-    //     const quantity = stamp.qty;
-    //     const input = document.querySelector(`[data-stampName="${stampName}"] > input`);
-    //     if (input) {
-    //         //if the input already exists, update the quantity
-    //         // input.value = quantity;
-    //     } else {
-    //         //otherwise, make a new stamp div and add to DOM
-    //         console.log('adding', stampName);
-    //         const newStamp = makeStamp(stampName, true);
-    //         inventory.append(newStamp)
-    //     }
-    // }
-
-
-    // getNumRows(); //uncomment if turning back on slide out transitions
 }
 
-//this function calculates how big the css grid is in pixels and sets the css variable for transition
-// function getNumRows() {
-//     const root = document.documentElement
-//     let gridRows = getComputedStyle(document.querySelector('#inventory'));
-//     gridRows = gridRows.getPropertyValue('grid-template-rows')
-//     gridRows = gridRows.split('px ')
-//     let lastEntry = gridRows[gridRows.length - 1]
-//     gridRows[gridRows.length - 1] = lastEntry.slice(0, lastEntry.indexOf('px'))
-//     gridRows.map(rowHeight => {
-//         return Number(rowHeight)
-//     })
-//     let divHeight = 0;
-//     gridRows.forEach(height => {
-//         divHeight += Number(height);
-//     });
-//     console.log(divHeight.toString() + 'px')
-//     root.style.setProperty('--inventory-height', divHeight.toString() + 'px')
-// }
+function makeStamps(array) {
+    const inventory = document.querySelector('#inventory');
+    array.forEach(stampName => {
+        inventory.append(makeStamp(stampName, true));
+        showInstructions();
+    })
+}
+
 
 function showInstructions () {
     const inventory = document.querySelector('#inventory');
@@ -195,13 +118,10 @@ function removeStamps(array) {
         const stampDiv = document.querySelector(`[data-stampname="${stamp}"]`);
         stampDiv.classList.add('deleted');
         stampDiv.ontransitionend = () => {
-            console.log('global', globalStampQueue)
-            const newStamp = makeStamp(globalStampQueue.shift(), true);
-            console.log('replacing with', newStamp)
-            stampDiv.replaceWith(newStamp);
-            console.log(globalStampQueue)
+            stampDiv.remove();
+            makeStamps(globalStampQueue);
+            globalStampQueue = [];
             showInstructions();
-            // getNumRows();
         }
     })
 
@@ -300,6 +220,7 @@ window.onload = () => {
         const postage = document.querySelector('#desired-postage');
         const res = findBestCombo(stamps, parseInt(postage.value));
         if (res instanceof Inventory) {
+            console.log(res)
             refreshResult(res);
         } else {
             document.querySelector('#result > .inventory').innerText = res
