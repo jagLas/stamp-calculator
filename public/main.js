@@ -78,22 +78,27 @@ function refreshInventory() {
         removeQueue.push(inventory.lastChild.dataset.stampname);
     }
 
-    globalStampQueue = makeStampQueue
+    //global stamp queue is necessary for now so that the add stamps function can access it
+    globalStampQueue = makeStampQueue;
     removeStamps(removeQueue);
+
+    //incase nothing was removed, trigger the make stamps function. Otherwise, stamps are added at the end of remove stamps function
     if (removeQueue.length === 0) {
         makeStamps(globalStampQueue);
         globalStampQueue = [];
     }
 
+    //checks if no stamps are in the div and sets styling accordingly
     showInstructions();
 }
 
+//makes stamps for the inventory screen and adds them
 function makeStamps(array) {
     const inventory = document.querySelector('#inventory');
     array.forEach(stampName => {
         inventory.append(makeStamp(stampName, true));
-        showInstructions();
     })
+    showInstructions();
 }
 
 
@@ -117,10 +122,12 @@ function removeStamps(array) {
     // console.log('Stamps to remove', array)
     array.forEach(stamp => {
         console.log('removing', stamp);
-        // document.querySelector(`[data-stampname="${stamp}"]`).remove();
-        const stampDiv = document.querySelector(`[data-stampname="${stamp}"]`);
+        //find the corresponding stampDiv
+        const stampDiv = document.querySelector(`#inventory [data-stampname="${stamp}"]`);
+        //add the deleted class for transition effect
         stampDiv.classList.add('deleted');
         stampDiv.ontransitionend = () => {
+            //remove it when transition is done, call makeStamps with the queue, and reset the queue; 
             stampDiv.remove();
             makeStamps(globalStampQueue);
             globalStampQueue = [];
