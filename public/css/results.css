@@ -18,7 +18,10 @@
     margin: 8px auto 0px;
 }
 
-
+#result > .inventory {
+    text-align: center;
+    justify-content: center;
+}
 
 #result {
     margin: 8px auto;
