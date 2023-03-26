@@ -14,6 +14,8 @@ export class Inventory {
     constructor() {    
     }
 
+    //adds a new stamp to the inventory, or adds that amount
+    //to an existing stamp, and will clear zeros after
     addStamp (val, amount = 0) {
         if (isNaN(val) || isNaN(amount)) {
             throw new TypeError('inputs should be numbers');
@@ -30,6 +32,7 @@ export class Inventory {
         this.clearZeroes(stampName);
     }
 
+    //removes any stamp that has a quantity less than or equal to 0
     clearZeroes(stampName) {
         if (this[stampName].qty <= 0) {
             // console.log(`removing ${stampName} because qty is 0 or less`)
@@ -37,12 +40,14 @@ export class Inventory {
         }
     }
 
+    //removes all stamps from inventory
     clearInventory(){
         for (const entry in this) {
             delete this[entry];
         }
     }
 
+    //calculates the value of the inventory
     calcValue (){
         const stamps = Object.values(this);
         this.totalVal = 0;
@@ -57,6 +62,7 @@ export class Inventory {
         return this.totalVal;
     }
 
+    //calculates the quantity of the inventory
     calcQty (){
         const stamps = Object.values(this);
         this.totalQty = 0;
@@ -69,6 +75,7 @@ export class Inventory {
         return this.totalQty;
     }
 
+    //sets a stamps quantity to a specified amount
     setStamp(val, amount = 0) {
         if (isNaN(val) || isNaN(amount)) {
             throw new TypeError('inputs should be numbers');
