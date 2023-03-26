@@ -19,7 +19,7 @@ function selectStamps(inventory, target) {
     for (const stamp in copy) {
         //excludes stamps that are more than the target value and non-zero
         if (copy[stamp].val <= target && copy[stamp].qty > 0) {
-            stamps.push(copy[stamp])
+            stamps.push(copy[stamp]);
         }
     }
 
@@ -101,9 +101,9 @@ export function findBestCombo(inventory, postage) {
 
     let inventoryCopy = copyInventory(inventory);
     if (inventoryCopy.calcValue() < postage) {
-        return 'Not Enough for Postage'
+        return 'Not Enough for Postage';
     }
-    // debugger
+
     //Finds all possible combinations of stamps less than or equal to the postage
     let combos = selectStamps(inventory, postage);
 
@@ -114,7 +114,7 @@ export function findBestCombo(inventory, postage) {
 
     //calculates each one's total value and the number of stamps
     combos.forEach(combo => {
-        combo.calcValue()
+        combo.calcValue();
         combo.calcQty();
     })
 
@@ -133,7 +133,7 @@ export function findBestCombo(inventory, postage) {
 
     //if no combination of stamps exist equal to the postage, recurse with the postage increased by 1
     if (combos.length === 0) {
-        return findBestCombo(inventory, postage + 1)
+        return findBestCombo(inventory, postage + 1);
     }
 
     //once a combo has been found equal to the postage, return the combo

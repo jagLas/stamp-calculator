@@ -1,6 +1,7 @@
 :root {
     --stamp--size-content: 180px;
     --stamp-size-margin: 16px;
+    /* variable used to auto-fit the css grid to the correct number of columns */
     --stamp-size: calc(var(--stamp--size-content) + var(--stamp-size-margin) * 2);
 }
 

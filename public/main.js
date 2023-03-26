@@ -63,13 +63,13 @@ function refreshInventory() {
             } else {
                 //otherwise, add that div to the queue to be removed.
                 removeQueue.push(divName);
-                console.log('adding', stampName, 'to queue')
+                // console.log('adding', stampName, 'to queue')
                 //and queue the stamp that should be at that position to be made
                 makeStampQueue.push(stampName);
             }
         } else {
             //if the stamp div does not exist, then add the inventory stamp to the queue to be made into the DOM
-            makeStampQueue.push(stampName)
+            makeStampQueue.push(stampName);
         }
     })
     
@@ -78,7 +78,7 @@ function refreshInventory() {
         let i = 1 + stampNames.length;
         while (i < domStamps.length) {
             const name = domStamps[i].dataset.stampname;
-            console.log(name)
+            // console.log(name)
             removeQueue.push(name);
             i++;
         }
@@ -112,12 +112,12 @@ function showInstructions () {
     //check if instructions are the only thing in inventory
     if (inventory.children.length <= 1) {
         //if yes, removed hidden tag and turn into flexbox
-        console.log('Inventory is currently empty')
+        console.log('Inventory is currently empty');
         inventory.classList.remove('grid');
-        document.querySelector('#instructions').classList.remove('hidden')
+        document.querySelector('#instructions').classList.remove('hidden');
     } else {
         //if not, apply grid class to inventory and add hidden class to instructions
-        document.querySelector('#instructions').classList.add('hidden')
+        document.querySelector('#instructions').classList.add('hidden');
         //turns css into grid class if stamps present
         inventory.classList.add('grid');
     }
@@ -126,7 +126,7 @@ function showInstructions () {
 function removeStamps(array) {
     // console.log('Stamps to remove', array)
     array.forEach(stamp => {
-        console.log('removing', stamp);
+        // console.log('removing', stamp);
         //find the corresponding stampDiv
         const stampDiv = document.querySelector(`#inventory [data-stampname="${stamp}"]`);
         //add the deleted class for transition effect
@@ -143,25 +143,25 @@ function removeStamps(array) {
 function makeStamp(stampName, editable = false, inventory = stamps) {
     const stamp = inventory[stampName];
     const stampDiv = document.createElement('div');
-    stampDiv.setAttribute('data-stampName', stampName)
-    stampDiv.setAttribute('class', 'stamp')
+    stampDiv.setAttribute('data-stampName', stampName);
+    stampDiv.setAttribute('class', 'stamp');
 
     const value = document.createElement('span');
-    value.setAttribute('class', 'value')
+    value.setAttribute('class', 'value');
     value.innerText = stamp.val;
     stampDiv.appendChild(value);
 
     const mult = document.createElement('div');
     mult.setAttribute('class', 'mult');
-    mult.innerText = 'X'
+    mult.innerText = 'X';
     stampDiv.appendChild(mult);
 
     let quantity;
 
     if(editable) {
         quantity = document.createElement('input');
-        quantity.setAttribute('type', 'number')
-        quantity.value = stamp.qty
+        quantity.setAttribute('type', 'number');
+        quantity.value = stamp.qty;
 
         //creates the listener so that inventory amounts can be altered
         quantity.addEventListener('change', (e) => {
@@ -176,20 +176,20 @@ function makeStamp(stampName, editable = false, inventory = stamps) {
         })
     } else {
         quantity = document.createElement('span');
-        quantity.innerText = stamp.qty
+        quantity.innerText = stamp.qty;
     }
 
-    quantity.setAttribute('class', 'quantity')
+    quantity.setAttribute('class', 'quantity');
 
 
-    stampDiv.appendChild(quantity)
-    return stampDiv
+    stampDiv.appendChild(quantity);
+    return stampDiv;
 }
 
 function refreshResult(inventory) {
     const result = document.querySelector('#result > .inventory')
     result.innerHTML = '';
-    result.classList.add('grid')
+    result.classList.add('grid');
 
     //sets the summary information and removes those keys from the inventory list
     document.querySelector('#res-qty').innerText = inventory.totalQty;
@@ -234,10 +234,10 @@ window.onload = () => {
         const postage = document.querySelector('#desired-postage');
         const res = findBestCombo(stamps, parseInt(postage.value));
         if (res instanceof Inventory) {
-            console.log(res)
+            console.log('result', res);
             refreshResult(res);
         } else {
-            document.querySelector('#result > .inventory').innerText = res
+            document.querySelector('#result > .inventory').innerText = res;
         }
 
     })
