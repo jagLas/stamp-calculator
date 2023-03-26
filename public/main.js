@@ -93,9 +93,6 @@ function refreshInventory() {
         makeStamps(globalStampQueue);
         globalStampQueue = [];
     }
-
-    //checks if no stamps are in the div and sets styling accordingly
-    showInstructions();
 }
 
 //makes stamps for the inventory screen and adds them
@@ -104,6 +101,8 @@ function makeStamps(array) {
     array.forEach(stampName => {
         inventory.append(makeStamp(stampName, true));
     })
+
+    //after making all of the stamps, check if instructions should be shown
     showInstructions();
 }
 
@@ -137,7 +136,6 @@ function removeStamps(array) {
             stampDiv.remove();
             makeStamps(globalStampQueue);
             globalStampQueue = [];
-            showInstructions();
         }
     })
 }
