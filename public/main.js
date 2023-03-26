@@ -188,29 +188,30 @@ function makeStamp(stampName, editable = false, inventory = stamps) {
     return stampDiv
 }
 
-//Creates a series of stamp divs to be displayed in inventory
-function inventoryToHTML(inventory, editable = true) {
-    if (inventory instanceof Inventory === false) {
-        throw new TypeError('input must be of class inventory')
-    }
-
-    const div = document.createDocumentFragment('div');
-    for (const entry in inventory) {
-        div.appendChild(makeStamp(entry, editable, inventory))
-    }
-
-    return div;
-}
-
 function refreshResult(inventory) {
     const result = document.querySelector('#result > .inventory')
     result.innerHTML = '';
     result.classList.add('grid')
+
+    //sets the summary information and removes those keys from the inventory list
     document.querySelector('#res-qty').innerText = inventory.totalQty;
     document.querySelector('#postage').innerText = inventory.totalVal;
     delete inventory.totalQty;
     delete inventory.totalVal;
-    result.appendChild(inventoryToHTML(inventory, false));
+
+    //sorts the stamps and adds a stamp for each one
+    const stamps = Object.keys(inventory)
+    stamps.sort((a, b) => {
+        if (inventory[a].val > inventory[b].val) {
+            return -1;
+        } else {
+            return 1;
+        }
+    })
+
+    stamps.forEach(stamp => {
+        result.appendChild(makeStamp(stamp, false, inventory));
+    })
 }
 
 //function sets the stamps variable to the inventory saved in local storage
