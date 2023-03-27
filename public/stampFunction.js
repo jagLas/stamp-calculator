@@ -94,7 +94,7 @@ function copyInventory (inventory) {
     return copy;
 }
 
-export function findBestCombo(inventory, postage) {
+export function findBestCombo(inventory, postage, worst = false) {
     if (isNaN(postage)) {
         throw new TypeError('postage should be a number');
     }
@@ -136,6 +136,10 @@ export function findBestCombo(inventory, postage) {
         return findBestCombo(inventory, postage + 1);
     }
 
+    if (worst) {
+        return combos[combos.length - 1];
+    }
+
     //once a combo has been found equal to the postage, return the combo
     return combos[0];
 }
@@ -157,4 +161,6 @@ export function findBestCombo(inventory, postage) {
 // mom.addStamp(41, 12);
 
 // console.log(findBestCombo(mom, 49))
+// console.log(findBestCombo(mom, 49, true))
 // console.log(findBestCombo(mom, 500))
+// console.log(findBestCombo(mom, 500, true))
